@@ -4,9 +4,10 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import unittest
-from qgis.core import *
 import sys
 import urllib
+
+from qgis.core import QgsVectorLayer, QgsDataSourceURI, QgsRasterLayer
 from geoserverexplorer.test import utils
 
 

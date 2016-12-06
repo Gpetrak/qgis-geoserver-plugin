@@ -8,16 +8,18 @@ This module provides methods to export layers so they can be used as valid data
 for uploading to GeoServer.
 '''
 
-from qgis.core import *
-from geoserverexplorer.qgis import utils
 import os
-from PyQt4 import QtCore
-from qgis.utils import iface
+from PyQt4.QtCore import QSettings
+from qgis.core import QgsMapLayer, QgsVectorLayer, QgsVectorFileWriter, QgsRasterFileWriter
 from qgis.gui import QgsMessageBar
+from qgis.utils import iface
+
+from geoserverexplorer.qgis import utils
+
 
 def exportVectorLayer(layer):
     '''accepts a QgsVectorLayer or a string with a filepath'''
-    settings = QtCore.QSettings()
+    settings = QSettings()
     systemEncoding = settings.value( "/UI/encoding", "System" )
     if isinstance(layer, QgsMapLayer):
         filename = unicode(layer.source())
@@ -44,7 +46,6 @@ def exportVectorLayer(layer):
         return filename
 
 
-
 def exportRasterLayer(layer):
     if (not unicode(layer.source()).lower().endswith("tif") ):
         filename = str(layer.name())
@@ -56,9 +57,3 @@ def exportRasterLayer(layer):
         return output
     else:
         return unicode(layer.source())
-
-
-
-
-
-

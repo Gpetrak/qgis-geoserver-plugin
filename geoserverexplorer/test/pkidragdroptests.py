@@ -6,8 +6,7 @@
 import unittest
 import os
 import sys
-from PyQt4.QtCore import *
-from qgis.core import *
+
 from geoserverexplorer.geoserver import pem
 from geoserverexplorer.test.dragdroptests import DragDropTests
 from geoserverexplorer.test import utils

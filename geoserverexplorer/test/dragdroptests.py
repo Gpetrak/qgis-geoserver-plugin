@@ -6,8 +6,18 @@
 import unittest
 import os
 import sys
-from geoserverexplorer.test.utils import PT1, WORKSPACE, WORKSPACEB, STYLE, PT2, PT3,\
-    GROUP, GEOLOGY_GROUP, LANDUSE, GEOFORMS
+
+from geoserverexplorer.test.utils import (PT1,
+                                          WORKSPACE,
+                                          WORKSPACEB,
+                                          STYLE,
+                                          PT2,
+                                          PT3,
+                                          GROUP,
+                                          GEOLOGY_GROUP,
+                                          LANDUSE,
+                                          GEOFORMS
+                                         )
 from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
 from geoserverexplorer.qgis import layers
 

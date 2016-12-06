@@ -6,8 +6,6 @@
 import unittest
 import os
 import sys
-from PyQt4.QtCore import *
-from qgis.core import *
 from geoserverexplorer.geoserver import pem
 from geoserverexplorer.test.guitests import CreateCatalogDialogTests
 from geoserverexplorer.test.guitests import GroupDialogTests

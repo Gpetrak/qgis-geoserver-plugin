@@ -4,7 +4,9 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import urllib
-from qgis.core import *
+
+from qgis.core import QgsAuthConfigPkiPaths,
+
 from geoserver.layer import Layer
 from geoserver.layergroup import LayerGroup
 

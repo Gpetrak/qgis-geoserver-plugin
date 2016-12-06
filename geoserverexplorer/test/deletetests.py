@@ -6,9 +6,11 @@
 import unittest
 import os
 import sys
-from PyQt4.QtCore import *
-from qgis.core import *
+
+from PyQt4.QtCore import QSettings
+from qgis.core import QgsProject
 from qgis.utils import iface
+
 from geoserverexplorer.test.utils import PT1, safeName, PT2, WORKSPACE, WORKSPACEB, shapefile_and_friends
 from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
 from geoserverexplorer.qgis import layers

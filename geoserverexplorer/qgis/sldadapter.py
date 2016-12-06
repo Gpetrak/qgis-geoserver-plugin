@@ -10,9 +10,20 @@ This is a quick and dirty solution until both programs support the same specific
 
 import re
 import os
-from PyQt4.QtXml import *
-from qgis.core import *
 import math
+
+from PyQt4.QtXml import QDomDocument
+from qgis.core import (QgsMapLayer,
+                       QgsSingleSymbolRendererV2,
+                       QgsCategorizedSymbolRendererV2,
+                       QgsGraduatedSymbolRendererV2,
+                       QgsApplication,
+                       QgsSvgMarkerSymbolLayerV2,
+                       QgsSVGFillSymbolLayer,
+                       QgsMarkerLineSymbolLayerV2,
+                       QgsSingleBandGrayRenderer,
+                       QgsSingleBandPseudoColorRenderer
+                      )
 
 SIZE_FACTOR = 4
 RASTER_SLD_TEMPLATE = ('<?xml version="1.0" encoding="UTF-8"?>'
@@ -89,7 +100,7 @@ def adaptQgsToGs(sld, layer):
         markerIndex = re.findall('<sld:MarkIndex>.*?</sld:MarkIndex>', arr)
         markerIndexValue=markerIndex[0][15:-16]
         sld = sld.replace(arr, '<WellKnownName>'+policeValue+'#'+hex(int(markerIndexValue))+'</WellKnownName>')
-        
+
     icons = []
     renderer = layer.rendererV2()
     if isinstance(renderer, QgsSingleSymbolRendererV2):
@@ -100,7 +111,6 @@ def adaptQgsToGs(sld, layer):
     elif isinstance(renderer, QgsGraduatedSymbolRendererV2):
         for ran in renderer.ranges():
             icons.extend(getReadyToUploadSvgIcons(ran.symbol()))
-
 
     for icon in icons:
         for path in QgsApplication.svgPaths():

@@ -6,26 +6,35 @@
 import unittest
 import sys
 import os
-from qgis.core import *
+
 from qgis.utils import iface
-from PyQt4.QtCore import *
+from PyQt4.QtCore import Qt, QSettings, QRegExp
 from PyQt4.QtGui import QWidget, QHBoxLayout, QToolTip
 from PyQt4.QtTest import QTest
+
 from geoserverexplorer.geoserver import pem
 from geoserverexplorer.gui.dialogs.catalogdialog import DefineCatalogDialog
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.dialogs.groupdialog import LayerGroupDialog
 from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
-from geoserverexplorer.test.utils import *
+from geoserverexplorer.test.utils import (GROUP,
+                                          WORKSPACE,
+                                          WORKSPACEB,
+                                          AUTHCFGID,
+                                          AUTHTYPE,
+                                          geoserverLocation,
+                                          getGeoServerCatalog,
+                                          cleanCatalog,
+
+                                         )
 from geoserverexplorer.gui.dialogs.layerdialog import PublishLayersDialog
 from geoserver.catalog import Catalog
 from geoserverexplorer.qgis import layers
-from geoserverexplorer.gui.gsnameutils import GSNameWidget, xmlNameRegex, \
-    xmlNameRegexMsg, xmlNameFixUp
+from geoserverexplorer.gui.gsnameutils import GSNameWidget, xmlNameRegex, xmlNameRegexMsg, xmlNameFixUp
 from geoserverexplorer.gui.dialogs.gsnamedialog import GSNameDialog
 from geoserverexplorer.gui.contextualhelp import InfoIcon
 from geoserverexplorer.gui.gsnameutils import xmlNameEmptyRegex
-from geoserverexplorer.test.utils import geoserverLocation, AUTHCFGID, AUTHTYPE
+
 
 class CreateCatalogDialogTests(unittest.TestCase):
 

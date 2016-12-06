@@ -4,7 +4,7 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-from PyQt4 import QtGui
+from PyQt4.QtGui import QIcon
 from processing.core.GeoAlgorithm import GeoAlgorithm
 from processing.core.parameters import ParameterString
 from geoserver.catalog import Catalog
@@ -17,7 +17,7 @@ class GeoServerAlgorithm(GeoAlgorithm):
     PASSWORD = 'PASSWORD'
 
     def getIcon(self):
-        return QtGui.QIcon(os.path.dirname(__file__)
+        return QIcon(os.path.dirname(__file__)
                            + '/../images/geoserver.png')
 
     def addBaseParameters(self):

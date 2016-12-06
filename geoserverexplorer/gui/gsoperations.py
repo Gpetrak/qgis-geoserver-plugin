@@ -3,8 +3,13 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4 import QtCore
-from qgis.core import *
+from PyQt4.QtCore import QFileInfo
+from qgis.core import (QgsMapLayer,
+                       QgsRasterLayer,
+                       QgsVectorLayer,
+                       QgsCoordinateTransform,
+                       QgsCoordinateReferenceSystem
+                      )
 from geoserverexplorer.qgis import layers as qgislayers
 from geoserverexplorer.qgis.catalog import CatalogWrapper
 from geoserverexplorer.gui.confirm import publishLayer
@@ -47,13 +52,13 @@ def addDraggedUrisToWorkspace(uris, catalog, workspace, explorer, tree):
                 layer = publishableLayers.get(source, None)
             else:
                 if isinstance(uri, basestring):
-                    layerName = QtCore.QFileInfo(uri).completeBaseName()
+                    layerName = QFileInfo(uri).completeBaseName()
                     layer = QgsRasterLayer(uri, layerName)
                 else:
                     layer = QgsRasterLayer(uri.uri, uri.name)
                 if not layer.isValid() or layer.type() != QgsMapLayer.RasterLayer:
                     if isinstance(uri, basestring):
-                        layerName = QtCore.QFileInfo(uri).completeBaseName()
+                        layerName = QFileInfo(uri).completeBaseName()
                         layer = QgsVectorLayer(uri, layerName, "ogr")
                     else:
                         layer = QgsVectorLayer(uri.uri, uri.name, uri.providerKey)

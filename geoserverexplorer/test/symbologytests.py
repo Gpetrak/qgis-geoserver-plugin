@@ -4,18 +4,27 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import unittest
+import re
 import os
 import sys
+
+from qgis.utils import iface
+
 from geoserverexplorer.qgis import layers, catalog
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs,\
-    getGsCompatibleSld
-from qgis.core import *
-from qgis.utils import iface, QGis
-from PyQt4.QtCore import *
+from geoserverexplorer.qgis.sldadapter import adaptGsToQgs, getGsCompatibleSld
 from geoserverexplorer.test import utils
-from geoserverexplorer.test.utils import PT1, DEM, DEM2, PT1JSON, DEMASCII,\
-    GEOLOGY_GROUP, GEOFORMS, LANDUSE, HOOK, WORKSPACE, WORKSPACEB
-import re
+from geoserverexplorer.test.utils import (PT1,
+                                          DEM,
+                                          DEM2,
+                                          PT1JSON,
+                                          DEMASCII,
+                                          GEOLOGY_GROUP,
+                                          GEOFORMS,
+                                          LANDUSE,
+                                          HOOK,
+                                          WORKSPACE,
+                                          WORKSPACEB
+                                         )
 
 class SymbologyTests(unittest.TestCase):
     '''
@@ -38,9 +47,6 @@ class SymbologyTests(unittest.TestCase):
     def tearDownClass(cls):
         utils.cleanCatalog(cls.cat.catalog)
 
-
-
-
     def compareSld(self, a, b):
         a = a.replace("\r", "").replace("\n", "").replace(" ", "")
         b = b.replace("\r", "").replace("\n", "").replace(" ", "")
@@ -49,8 +55,6 @@ class SymbologyTests(unittest.TestCase):
         a = re.sub(r"<ogc:Literal>(\d+)\.(\d+)</ogc:Literal>", r"<ogc:Literal>\1</ogc:Literal>", a)
         b = re.sub(r"<ogc:Literal>(\d+)\.(\d+)</ogc:Literal>", r"<ogc:Literal>\1</ogc:Literal>", b)
         self.assertEqual(a, b, "SLD compare failes: %s %s" % (a, b))
-
-
 
     def testVectorFontStylingUpload(self):
         layer = layers.resolveLayer(PT1)
@@ -61,8 +65,6 @@ class SymbologyTests(unittest.TestCase):
         with open(sldfile, 'r') as f:
             sldref = f.read()
         self.compareSld(sldref, sld)
-
-
 
 ##################################################################################################
 

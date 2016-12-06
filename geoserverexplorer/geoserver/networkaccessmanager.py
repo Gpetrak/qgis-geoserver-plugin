@@ -22,7 +22,7 @@ __date__ = 'August 2016'
 
 from PyQt4.QtCore import QUrl
 from PyQt4.QtCore import pyqtSlot, QEventLoop
-from PyQt4.QtNetwork import *
+from PyQt4.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import QgsNetworkAccessManager, QgsAuthManager, QgsMessageLog
 import urllib2
 

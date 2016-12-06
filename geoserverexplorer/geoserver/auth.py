@@ -26,8 +26,9 @@ from xml.etree.ElementTree import XML
 from xml.parsers.expat import ExpatError
 from geoserver.catalog import FailedRequestError
 from gsimporter.client import Client, _Client
-from .networkaccessmanager import NetworkAccessManager
-from .basecatalog import BaseCatalog
+
+from geoserverexplorer.geoserver.networkaccessmanager import NetworkAccessManager
+from geoserverexplorer.geoserver.basecatalog import BaseCatalog
 
 logger = logging.getLogger("auth.authcatalog")
 

@@ -16,7 +16,7 @@ from qgis.core import (QgsMapLayerRegistry,
                        QgsAuthCertUtils)
 import qgis
 import geoserverexplorer
-from geoserverexplorer.gui.gsexploreritems import *
+from geoserverexplorer.gui.gsexploreritems import GsCatalogItem
 from PyQt4.QtNetwork import QSslCertificate, QSslKey, QSsl
 
 PREFIX = "qgis_plugin_test_"

@@ -7,8 +7,10 @@ import httplib2
 from xml.etree.ElementTree import XML
 import xml.etree.ElementTree as ET
 from urlparse import urlparse
-from geoserver.catalog import FailedRequestError
 import json
+
+from geoserver.catalog import FailedRequestError
+
 from geoserverexplorer.geoserver.pki import PKICatalog
 from geoserverexplorer.geoserver.auth import AuthCatalog
 

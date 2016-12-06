@@ -3,14 +3,15 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+import os
 import unittest
+
 from PyQt4.QtCore import QSettings
+from qgis.utils import iface
+
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.test import utils
 from geoserverexplorer.gui.gsexploreritems import GsCatalogItem
-import os
-from qgis.utils import iface
-from qgis.core import *
 from geoserverexplorer.test.utils import AUTHCFGID, AUTHTYPE
 
 SETTINGS_CACHE_TIME = "/GeoServer/Settings/GeoServer/AuthCatalogXMLCacheTime"

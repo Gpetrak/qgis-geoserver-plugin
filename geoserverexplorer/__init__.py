@@ -14,9 +14,6 @@ site.addsitedir(os.path.abspath(os.path.dirname(__file__) + '/ext-libs'))
 #import httplib2
 #httplib2.debuglevel = 1
 
-
-from geoserverexplorer.qgis.catalog import *
-
 def classFactory(iface):
     from geoserverexplorer.plugin import GeoServerExplorerPlugin
     return GeoServerExplorerPlugin(iface)

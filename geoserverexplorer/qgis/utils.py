@@ -6,9 +6,11 @@
 import os
 import uuid
 import time
-from qgis.core import *
-from qgis.utils import *
-from PyQt4 import QtCore, QtGui
+
+from PyQt4.QtCore import QDir
+from PyQt4.QtGui import QMessageBox
+from qgis.utils import iface
+
 from geoserverexplorer.qgis import layers as qgislayers
 from geoserverexplorer.qgis import uri as uri_utils
 
@@ -18,17 +20,17 @@ class UserCanceledOperation(Warning):
 def checkLayers():
     layers = qgislayers.getAllLayers()
     if len(layers) == 0:
-        QtGui.QMessageBox.warning(iface.mainWindow(), 'QGIS layers needed',
+        QMessageBox.warning(iface.mainWindow(), 'QGIS layers needed',
             "No suitable layers can be found in your current QGIS project.\n"
             "You must open the layers in QGIS to be able to work with them.",
-            QtGui.QMessageBox.Ok)
+            QMessageBox.Ok)
         return False
     return True
 
 def tempFolder():
-    tempDir = os.path.join(unicode(QtCore.QDir.tempPath()), "geoserverplugin")
-    if not QtCore.QDir(tempDir).exists():
-        QtCore.QDir().mkpath(tempDir)
+    tempDir = os.path.join(unicode(QDir.tempPath()), "geoserverplugin")
+    if not QDir(tempDir).exists():
+        QDir().mkpath(tempDir)
     return unicode(os.path.abspath(tempDir))
 
 def tempFilename(ext):

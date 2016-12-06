@@ -7,12 +7,12 @@ import os
 from PyQt4.QtGui import QIcon
 from processing.core.AlgorithmProvider import AlgorithmProvider
 from processing.core.ProcessingConfig import Setting, ProcessingConfig
-from uploadvector import UploadVector
-from uploadraster import UploadRaster
-from createstyle import CreateStyle
-from createworkspace import CreateWorkspace
-from deleteworkspace import DeleteWorkspace
-from deletedatastore import DeleteDatastore
+from geoserverexplorer.processingprovider.uploadvector import UploadVector
+from geoserverexplorer.processingprovider.uploadraster import UploadRaster
+from geoserverexplorer.processingprovider.createstyle import CreateStyle
+from geoserverexplorer.processingprovider.createworkspace import CreateWorkspace
+from geoserverexplorer.processingprovider.deleteworkspace import DeleteWorkspace
+from geoserverexplorer.processingprovider.deletedatastore import DeleteDatastore
 
 class GeoServerProvider(AlgorithmProvider):
 
@@ -38,10 +38,8 @@ class GeoServerProvider(AlgorithmProvider):
     def initializeSettings(self):
         AlgorithmProvider.initializeSettings(self)
 
-
     def unload(self):
         AlgorithmProvider.unload(self)
-
 
     def getName(self):
         return 'geoserver'
