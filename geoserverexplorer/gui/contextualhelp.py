@@ -8,12 +8,9 @@ Contextual help components for use in dialogs, etc.
 """
 
 import os
-from PyQt4.QtCore import QSize
-from PyQt4.QtGui import (QLabel,
-                         QSizePolicy,
-                         QPixmap,
-                         QToolTip,
-                        )
+from qgis.PyQt.QtCore import QSize
+from qgis.PyQt.QtWidgets import QLabel, QSizePolicy, QToolTip
+from qgis.PyQt.QtGui import QPixmap
 
 
 # noinspection PyAttributeOutsideInit, PyPep8Naming

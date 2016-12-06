@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+
 #
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
+from builtins import range
 import os
-from PyQt4 import QtGui, QtCore
+from qgis.PyQt import QtGui, QtCore
 from qgis.gui import QgsFilterLineEdit
 
 
@@ -48,7 +51,7 @@ class ConfigDialog(QtGui.QDialog):
 
 
     def filterTree(self):
-        text = unicode(self.searchBox.text())
+        text = str(self.searchBox.text())
         for i in range(self.tree.topLevelItemCount()):
             item = self.tree.topLevelItem(i)
             visible = False
@@ -133,7 +136,7 @@ class TreeSettingItem(QtGui.QTreeWidgetItem):
         else:
             self.value = QtCore.QSettings().value(name, defaultValue=defaultValue)
             self.setFlags(self.flags() | QtCore.Qt.ItemIsEditable)
-            self.setText(1, unicode(self.value))
+            self.setText(1, str(self.value))
 
     def saveValue(self):
         if isinstance(self.value,bool):

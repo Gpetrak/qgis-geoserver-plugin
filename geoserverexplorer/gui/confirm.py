@@ -6,14 +6,15 @@
 '''
 Routines to ask for confirmation when performing certain operations
 '''
-from PyQt4.QtCore import QSettings, Qt
-from PyQt4.QtGui import (QMessageBox,
-                         QDialog,
-                         QVBoxLayout,
-                         QLabel,
-                         QTextEdit,
-                         QDialogButtonBox
-                        )
+from builtins import str
+from qgis.PyQt.QtCore import QSettings, Qt
+from qgis.PyQt.QtWidgets import (QMessageBox,
+                                 QDialog,
+                                 QVBoxLayout,
+                                 QLabel,
+                                 QTextEdit,
+                                 QDialogButtonBox
+                                )
 
 from geoserverexplorer.gui.dialogs.gsnamedialog import getGSLayerName
 from geoserverexplorer.gui.gsnameutils import isNameValid, xmlNameRegex
@@ -89,7 +90,7 @@ class DeleteDependentsDialog(QDialog):
         layout.addWidget(msgLabel)
 
         deletesView = QTextEdit()
-        deletesView.setText(unicode(self.deletes))
+        deletesView.setText(str(self.deletes))
         deletesView.setReadOnly(True)
         deletesView.setLineWrapMode(QTextEdit.NoWrap)
         layout.addWidget(deletesView)

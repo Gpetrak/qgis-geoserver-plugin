@@ -2,7 +2,14 @@
 # Run docker tests on your local machine
 
 PLUGIN_NAME="geoserverexplorer"
-export QGIS_VERSION_TAG="master_2"
+# One of master_2, master, release
+TARGET_VERSION=master
+
+if [ $TARGET_VERSION = 'master' ]; then
+    PIP_EXECUTABLE=pip3
+else
+    PIP_EXECUTABLE=pip
+fi
 
 docker-compose down -v
 docker-compose up -d
@@ -12,9 +19,8 @@ DOCKER_RUN_COMMAND="docker-compose exec qgis-testing-environment sh -c"
 
 # Setup
 $DOCKER_RUN_COMMAND "qgis_setup.sh $PLUGIN_NAME"
-$DOCKER_RUN_COMMAND "pip install paver"
-$DOCKER_RUN_COMMAND "cd /tests_directory && paver setup"
-$DOCKER_RUN_COMMAND "ln -s /tests_directory/$PLUGIN_NAME /root/.qgis2/python/plugins/$PLUGIN_NAME"
+$DOCKER_RUN_COMMAND "$PIP_EXECUTABLE install paver"
+$DOCKER_RUN_COMMAND "cd /tests_directory && paver setup && paver package --tests"
 
 # Run the tests
 $DOCKER_RUN_COMMAND "qgis_testrunner.sh geoserverexplorer.test.catalogtests"

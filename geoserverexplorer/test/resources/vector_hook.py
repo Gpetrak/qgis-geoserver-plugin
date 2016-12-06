@@ -2,7 +2,6 @@
 ##input=vector
 ##output=output vector
 
-from qgis.core import *
 from processing.tools.vector import VectorWriter
 
 vectorLayer = processing.getObject(input)
@@ -14,6 +13,6 @@ writer = VectorWriter(output, None, provider.fields(),
 
 features = processing.features(vectorLayer)
 
-writer.addFeature(features.iter.next())
+writer.addFeature(next(features.iter))
 
 del writer

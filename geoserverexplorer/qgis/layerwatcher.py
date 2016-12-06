@@ -17,7 +17,7 @@ def layerAdded(qgislayer):
             return
     except:
         pass #Not all layers have a providerType method
-    catalogs = _explorer.explorerTree.gsItem._catalogs.values()
+    catalogs = list(_explorer.explorerTree.gsItem._catalogs.values())
     for cat in catalogs:
         if cat.gs_base_url in qgislayer.source():
             for layer in cat.get_layers():
@@ -32,7 +32,7 @@ def layerAdded(qgislayer):
                         msg, ok = qgislayer.loadSldStyle(sldfile)
                         if not ok:
                             raise Exception("Could not load style for layer <b>%s</b>" % qgislayer.name())
-                    except Exception, e:
+                    except Exception as e:
                         _explorer.setWarning("Could not set style for layer <b>%s</b>" % qgislayer.name())
                     break
 

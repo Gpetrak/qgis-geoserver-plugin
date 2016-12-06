@@ -3,23 +3,23 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
+from builtins import range
+
 import os
 from collections import defaultdict
 import traceback
 
 from _ssl import SSLError
 
-from PyQt4.QtCore import Qt, QSettings
-from PyQt4.QtGui import (QIcon,
-                         QAction,
-                         QApplication,
-                         QCursor,
-                         QMessageBox,
-                         QInputDialog,
-                         QLineEdit,
-                         QProgressDialog
-                        )
-from qgis.core import QGis, QgsAuthManager, QgsAuthType, QgsAuthConfigBasic,
+from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtGui import QIcon, QCursor
+from qgis.PyQt.QtWidgets import QAction, QApplication, QMessageBox, QInputDialog, QLineEdit, QProgressDialog
+from qgis.core import QgsAuthManager, QgsAuthType, QgsAuthConfigBasic
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
 
 from geoserver.store import DataStore
 from geoserver.resource import Coverage, FeatureType
@@ -40,7 +40,10 @@ from geoserverexplorer.geoserver import pem
 from geoserverexplorer.qgis import layers as qgislayers
 from geoserverexplorer.qgis.catalog import CatalogWrapper
 from geoserverexplorer.qgis.sldadapter import adaptGsToQgs, getGeomTypeFromSld, getGsCompatibleSld
-from geoserverexplorer.qgis.utils import *
+from geoserverexplorer.qgis.utils import (UserCanceledOperation,
+                                          checkLayers,
+                                          tempFilename
+                                         )
 
 from geoserverexplorer.gui.dialogs.catalogdialog import DefineCatalogDialog
 from geoserverexplorer.gui.dialogs.styledialog import AddStyleToLayerDialog, StyleFromLayerDialog
@@ -53,8 +56,12 @@ from geoserverexplorer.gui.dialogs.sldeditor import SldEditorDialog
 from geoserverexplorer.gui.gwcexploreritems import GwcLayersItem
 from geoserverexplorer.geoserver.util import getLayerFromStyle
 from geoserverexplorer.gui.confirm import confirmDelete
-from geoserverexplorer.gui.gsoperations import addDraggedStyleToLayer
-from geoserverexplorer.gui.gsoperations import *
+from geoserverexplorer.gui.gsoperations import (addDraggedStyleToLayer,
+                                                addDraggedLayerToGroup,
+                                                addDraggedUrisToWorkspace,
+                                                publishProject,
+                                                publishLayers
+                                               )
 
 
 class GsTreeItem(TreeItem):
@@ -228,7 +235,7 @@ class GsTreeItem(TreeItem):
                 gwcItem = catItem.gwcItem
                 if gwcItem.isValid:
                     possibleGwcLayers = []
-                    for idx in xrange(gwcItem.childCount()):
+                    for idx in range(gwcItem.childCount()):
                         gwcLayerItem = gwcItem.child(idx)
                         gwcLayer = gwcLayerItem.element
                         if gwcLayer.name.split(":")[-1] == element.name:
@@ -325,17 +332,17 @@ class GsCatalogsItem(GsTreeItem):
                 self.addChild(geoserverItem)
                 geoserverItem.populate()
                 self.setExpanded(True)
-            except FailedRequestError, e:
+            except FailedRequestError as e:
                 explorer.setWarning(e.args[0])
             except SSLError:
                 explorer.setWarning("Cannot connect using the provided certificate/key values")
-            except Exception, e:
+            except Exception as e:
                 explorer.setError("Could not connect to catalog:\n" + traceback.format_exc())
             finally:
                 QApplication.restoreOverrideCursor()
 
     def refreshContent(self, explorer):
-        for i in xrange(self.childCount()):
+        for i in range(self.childCount()):
             catItem = self.child(i)
             if catItem.isConnected:
                 catItem.refreshContent(explorer)
@@ -497,7 +504,7 @@ class GsCatalogItem(GsTreeItem):
             settings = QSettings()
             settings.beginGroup("/GeoServer/Catalogs")
             settings.beginGroup(self.name)
-            url = unicode(settings.value("url"))
+            url = str(settings.value("url"))
             username = settings.value("username")
             authid = settings.value("authid")
             QApplication.restoreOverrideCursor()
@@ -556,7 +563,7 @@ class GsCatalogItem(GsTreeItem):
             #dlg.showNormal()
             QApplication.processEvents()
             self._populate()
-        except Exception, e:
+        except Exception as e:
             if catalogIsNone:
                 self.catalog = None
             var = traceback.format_exc()
@@ -759,9 +766,9 @@ class GsLayerItem(GsTreeItem):
                         + 'This results in an ambiguous situation and unfortunately we cannot differentiate between them. Only one layer is displayed.'
                         + 'This element represents the layer based on a datastore from the ' + wsname + ' workspace </p>')
                 html += '<p><h3><b>Properties</b></h3></p><ul>'
-                html += '<li><b>Name: </b>' + unicode(self.element.name) + '</li>\n'
-                html += '<li><b>Title: </b>' + unicode(self.element.resource.title) + ' &nbsp;<a href="modify:title">Modify</a></li>\n'
-                html += '<li><b>Abstract: </b>' + unicode(self.element.resource.abstract) + ' &nbsp;<a href="modify:abstract">Modify</a></li>\n'
+                html += '<li><b>Name: </b>' + str(self.element.name) + '</li>\n'
+                html += '<li><b>Title: </b>' + str(self.element.resource.title) + ' &nbsp;<a href="modify:title">Modify</a></li>\n'
+                html += '<li><b>Abstract: </b>' + str(self.element.resource.abstract) + ' &nbsp;<a href="modify:abstract">Modify</a></li>\n'
                 html += ('<li><b>SRS: </b>' + str(self.element.resource.projection) + ' &nbsp;<a href="modify:srs">Modify</a></li>\n')
                 html += ('<li><b>Datastore workspace: </b>' + wsname + ' </li>\n')
                 bbox = self.element.resource.latlon_bbox
@@ -1009,7 +1016,7 @@ class GsLayerItem(GsTreeItem):
         try:
             cat.addLayerToProject(self.element.name)
             explorer.setInfo("Layer '" + self.element.name + "' correctly added to QGIS project")
-        except Exception, e:
+        except Exception as e:
             explorer.setError(str(e))
 
 class GsGroupItem(GsTreeItem):
@@ -1077,7 +1084,7 @@ class GsGroupItem(GsTreeItem):
         try:
             cat.addGroupToProject(self.element.name)
             explorer.setInfo("Group layer '" + self.element.name + "' correctly added to QGIS project")
-        except Exception, e:
+        except Exception as e:
             explorer.setError(str(e))
 
     def deleteLayerGroup(self, tree, explorer):
@@ -1213,7 +1220,7 @@ class GsStyleItem(GsTreeItem):
         layerStyles = defaultdict(list)
         for item in selected:
             layerStyles[item.parent()].append(item.element.name)
-        for layerItem, styles in layerStyles.iteritems():
+        for layerItem, styles in layerStyles.items():
             layer = layerItem.element
             currentStyles = layer.styles
             currentStyles = [style for style in styles if style not in styles]

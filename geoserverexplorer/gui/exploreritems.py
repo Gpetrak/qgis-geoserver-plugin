@@ -3,8 +3,8 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QTreeWidgetItem, QTextBrowser
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import QTreeWidgetItem, QTextBrowser
 
 from geoserverexplorer.geoserver import util
 
@@ -40,7 +40,7 @@ class TreeItem(QTreeWidgetItem):
         self.description.setOpenLinks(False)
         def linkClicked(url):
             self.linkClicked(tree, explorer, url)
-        self.description..anchorClicked.connect(linkClicked)
+        self.description.anchorClicked.connect(linkClicked)
         self.description.setHtml(text)
         return self.description
 

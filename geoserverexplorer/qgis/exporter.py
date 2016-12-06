@@ -7,9 +7,10 @@
 This module provides methods to export layers so they can be used as valid data
 for uploading to GeoServer.
 '''
+from builtins import str
 
 import os
-from PyQt4.QtCore import QSettings
+from qgis.PyQt.QtCore import QSettings
 from qgis.core import QgsMapLayer, QgsVectorLayer, QgsVectorFileWriter, QgsRasterFileWriter
 from qgis.gui import QgsMessageBar
 from qgis.utils import iface
@@ -22,11 +23,11 @@ def exportVectorLayer(layer):
     settings = QSettings()
     systemEncoding = settings.value( "/UI/encoding", "System" )
     if isinstance(layer, QgsMapLayer):
-        filename = unicode(layer.source())
-        destFilename = unicode(layer.name())
+        filename = str(layer.source())
+        destFilename = str(layer.name())
     else:
-        filename = unicode(layer)
-        destFilename = unicode(os.path.splitext(os.path.basename(filename))[0])
+        filename = str(layer)
+        destFilename = str(os.path.splitext(os.path.basename(filename))[0])
     if (not filename.lower().endswith("shp")):
         if not isinstance(layer, QgsMapLayer):
             layer = QgsVectorLayer(filename, "layer", "ogr")
@@ -47,7 +48,7 @@ def exportVectorLayer(layer):
 
 
 def exportRasterLayer(layer):
-    if (not unicode(layer.source()).lower().endswith("tif") ):
+    if (not str(layer.source()).lower().endswith("tif") ):
         filename = str(layer.name())
         output = utils.tempFilenameInTempFolder(filename + ".tif")
         writer = QgsRasterFileWriter(output)
@@ -56,4 +57,4 @@ def exportRasterLayer(layer):
         del writer
         return output
     else:
-        return unicode(layer.source())
+        return str(layer.source())

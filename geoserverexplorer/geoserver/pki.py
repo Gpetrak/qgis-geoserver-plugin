@@ -6,7 +6,11 @@
 import httplib2
 from gsimporter.client import Client, _Client
 
-from qgis.core import QGis
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
+
 from gepserverexplorer.geoserver.basecatalog import BaseCatalog
 
 class PKICatalog(BaseCatalog):

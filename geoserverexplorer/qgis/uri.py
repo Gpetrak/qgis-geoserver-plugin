@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
+
 #
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import urllib
+from future import standard_library
+standard_library.install_aliases()
+
+import urllib.request, urllib.parse, urllib.error
 
 from qgis.core import QgsAuthConfigPkiPaths,
 
@@ -55,7 +59,7 @@ def layerUri(layer):
             'SRSNAME': resource.projection,
         }
         addAuth(params, catalog)
-        uri = layer.catalog.gs_base_url + 'wfs?' + urllib.unquote(urllib.urlencode(params))
+        uri = layer.catalog.gs_base_url + 'wfs?' + urllib.parse.unquote(urllib.parse.urlencode(params))
     elif resource.resource_type == 'coverage':
         params = {
             'identifier':  _get_namespaced_name(resource.workspace.name, resource.name),
@@ -64,7 +68,7 @@ def layerUri(layer):
             'cache': 'PreferNetwork'
         }
         addAuth(params, catalog)
-        uri = urllib.unquote(urllib.urlencode(params))
+        uri = urllib.parse.unquote(urllib.parse.urlencode(params))
     else:
         params = {
             'layers': _get_namespaced_name(resource.workspace.name, resource.name),
@@ -74,7 +78,7 @@ def layerUri(layer):
             'crs': resource.projection
         }
         addAuth(params, catalog)
-        uri = urllib.unquote(urllib.urlencode(params))
+        uri = urllib.parse.unquote(urllib.parse.urlencode(params))
 
     return uri
 
@@ -86,7 +90,7 @@ def groupUri(group):
             'styles': '',
         }
     addAuth(params, group.catalog)
-    uri = urllib.unquote(urllib.urlencode(params))
+    uri = urllib.parse.unquote(urllib.parse.urlencode(params))
     return uri
 
 def layerMimeUri(element):

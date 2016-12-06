@@ -3,28 +3,31 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import object
+
 import os
 import webbrowser
-import config
 
-from PyQt4.QtCore import Qt, QSettings
-from PyQt4.QtGui import QIcon, QAction
+from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
 
+from geoserverexplorer import config
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.dialogs.configdialog import ConfigDialog
 from geoserverexplorer.geoserver import pem
-
-try:
-    from processing.core.Processing import Processing
-    from processingprovider.geoserverprovider import GeoServerProvider
-    processingOk = True
-except:
-    processingOk = False
 from geoserverexplorer.qgis.sldadapter import adaptGsToQgs
 from geoserverexplorer.qgis import layerwatcher
 
+try:
+    from processing.core.Processing import Processing
+    from geoserverexplorer.processingprovider.geoserverprovider import GeoServerProvider
+    processingOk = True
+except:
+    processingOk = False
 
-class GeoServerExplorerPlugin:
+
+class GeoServerExplorerPlugin(object):
 
     def __init__(self, iface):
         self.iface = iface
@@ -72,7 +75,6 @@ class GeoServerExplorerPlugin:
             self.explorer.hide()
         self.explorer.visibilityChanged.connect(self._explorerVisibilityChanged)
 
-
         icon = QIcon(os.path.dirname(__file__) + "/images/config.png")
         self.configAction = QAction(icon, "GeoServer Explorer settings", self.iface.mainWindow())
         self.configAction.triggered.connect(self.openSettings)
@@ -87,7 +89,6 @@ class GeoServerExplorerPlugin:
             Processing.addProvider(self.provider)
 
         layerwatcher.connectLayerWasAdded(self.explorer)
-
 
     def _explorerVisibilityChanged(self, visible):
         settings = QSettings()

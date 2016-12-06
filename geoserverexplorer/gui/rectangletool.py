@@ -3,7 +3,7 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import pyqtSignal, Qt
+from qgis.PyQt.QtCore import pyqtSignal, Qt
 from qgis.core import QgsPoint, QgsRectangle
 from qgis.gui import QgsMapTool, QgsMapToolEmitPoint, QgsRubberBand
 

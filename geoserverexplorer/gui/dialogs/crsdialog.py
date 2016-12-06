@@ -3,18 +3,20 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from qgis.core import *
-from qgis.gui import *
-from PyQt4 import QtGui
+from qgis.gui import QgsProjectionSelector,
+from qgis.PyQt.QtWidgets (QDialog,
+                          QVBoxLayout,
+                          QDialogButtonBox
+                         )
 
-class CrsSelectionDialog(QtGui.QDialog):
+class CrsSelectionDialog(QDialog):
 
     def __init__(self):
-        QtGui.QDialog.__init__(self)
+        QDialog.__init__(self)
         self.authid = None
-        layout = QtGui.QVBoxLayout()
+        layout = QVBoxLayout()
         self.selector = QgsProjectionSelector(self)
-        buttonBox = QtGui.QDialogButtonBox(QtGui.QDialogButtonBox.Ok | QtGui.QDialogButtonBox.Close)
+        buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Close)
         layout.addWidget(self.selector)
         layout.addWidget(buttonBox)
         self.setLayout(layout)

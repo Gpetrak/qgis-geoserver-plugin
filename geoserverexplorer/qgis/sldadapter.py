@@ -7,23 +7,35 @@
 methods to convert the SLD produced by GeoServer (1.0) to the SLD produced by QGIS (1.1), and also the other way round.
 This is a quick and dirty solution until both programs support the same specification
 '''
+from builtins import hex
+from builtins import str
+from builtins import range
 
 import re
 import os
 import math
 
-from PyQt4.QtXml import QDomDocument
+from qgis.PyQt.QtXml import QDomDocument
 from qgis.core import (QgsMapLayer,
-                       QgsSingleSymbolRendererV2,
-                       QgsCategorizedSymbolRendererV2,
-                       QgsGraduatedSymbolRendererV2,
                        QgsApplication,
-                       QgsSvgMarkerSymbolLayerV2,
                        QgsSVGFillSymbolLayer,
-                       QgsMarkerLineSymbolLayerV2,
                        QgsSingleBandGrayRenderer,
                        QgsSingleBandPseudoColorRenderer
                       )
+try:
+    from qgis.core import (QgsSingleSymbolRendererV2,
+                           QgsCategorizedSymbolRendererV2,
+                           QgsGraduatedSymbolRendererV2,
+                           QgsSvgMarkerSymbolLayerV2,
+                           QgsMarkerLineSymbolLayerV2
+                          )
+except ImportError:
+    from qgis.core import QgsSingleSymbolRenderer as QgsSingleSymbolRendererV2
+    from qgis.core import QgsCategorizedSymbolRenderer as QgsCategorizedSymbolRendererV2
+    from qgis.core import QgsGraduatedSymbolRenderer as QgsGraduatedSymbolRendererV2
+    from qgis.core import QgsSvgMarkerSymbolLayer as QgsSvgMarkerSymbolLayerV2
+    from qgis.core import QgsMarkerLineSymbolLayer as QgsMarkerLineSymbolLayerV2
+
 
 SIZE_FACTOR = 4
 RASTER_SLD_TEMPLATE = ('<?xml version="1.0" encoding="UTF-8"?>'
@@ -89,7 +101,7 @@ def adaptQgsToGs(sld, layer):
                        "slash":"shape://slash",
                        "backslash":"shape://backslash",
                        "x": "shape://times"}
-    for key,value in wknReplacements.iteritems():
+    for key,value in wknReplacements.items():
         sld = sld.replace("<sld:WellKnownName>%s</sld:WellKnownName>" % key,
                       "<sld:WellKnownName>%s</sld:WellKnownName>" % value)
 
@@ -124,7 +136,7 @@ def adaptQgsToGs(sld, layer):
 
 def getReadyToUploadSvgIcons(symbol):
     icons = []
-    for i in xrange(symbol.symbolLayerCount()):
+    for i in range(symbol.symbolLayerCount()):
         sl = symbol.symbolLayer(i)
         if isinstance(sl, QgsSvgMarkerSymbolLayerV2):
             props = sl.properties()
@@ -135,7 +147,7 @@ def getReadyToUploadSvgIcons(symbol):
             svg = re.sub(r'param\(outline-width\).*?\"', props["outline_width"] + '"', svg)
             basename = os.path.basename(sl.path())
             filename, ext = os.path.splitext(basename)
-            propsHash = hash(frozenset(props.items()))
+            propsHash = hash(frozenset(list(props.items())))
             icons.append ([sl.path(), "%s_%s%s" % (filename, propsHash, ext), svg])
         elif isinstance(sl, QgsSVGFillSymbolLayer):
             props = sl.properties()
@@ -146,7 +158,7 @@ def getReadyToUploadSvgIcons(symbol):
             svg = re.sub(r'param\(outline-width\).*?\"', props["outline_width"] + '"', svg)
             basename = os.path.basename(sl.svgFilePath())
             filename, ext = os.path.splitext(basename)
-            propsHash = hash(frozenset(props.items()))
+            propsHash = hash(frozenset(list(props.items())))
             icons.append ([sl.svgFilePath(), "%s_%s%s" % (filename, propsHash, ext), svg])
         elif isinstance(sl, QgsMarkerLineSymbolLayerV2):
             return getReadyToUploadSvgIcons(sl.subSymbol())
@@ -251,7 +263,7 @@ def getStyleAsSld(layer):
         errorMsg = ""
         layer.writeSld(namedLayerNode, document, errorMsg)
 
-        return unicode(document.toString(4))
+        return str(document.toString(4))
     elif layer.type() == layer.RasterLayer:
         renderer = layer.renderer()
         if isinstance(renderer, QgsSingleBandGrayRenderer):
@@ -267,7 +279,7 @@ def getStyleAsSld(layer):
             for item in items:
                 color = item.color
                 rgb = '#%02x%02x%02x' % (color.red(), color.green(), color.blue())
-                symbolizerCode += '<ColorMapEntry color="' + rgb + '" quantity="' + unicode(item.value) + '" />'
+                symbolizerCode += '<ColorMapEntry color="' + rgb + '" quantity="' + str(item.value) + '" />'
             symbolizerCode += "</ColorMap>"
             sld =  RASTER_SLD_TEMPLATE.replace("SYMBOLIZER_CODE", symbolizerCode).replace("STYLE_NAME", layer.name())
             return sld

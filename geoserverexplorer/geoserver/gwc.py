@@ -3,10 +3,16 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+
+from future import standard_library
+standard_library.install_aliases()
+from builtins import str
+from builtins import object
+
 import httplib2
 from xml.etree.ElementTree import XML
 import xml.etree.ElementTree as ET
-from urlparse import urlparse
+from urllib.parse import urlparse
 import json
 
 from geoserver.catalog import FailedRequestError
@@ -64,8 +70,6 @@ class Gwc(object):
         layer = GwcLayer(self, name)
         layer.fetch()
         return layer
-
-
 
     def addLayer(self, layer):
         headers = {
@@ -148,7 +152,6 @@ class GwcLayer(object):
         return response
 
     def delete(self):
-
         response, content = self.gwc.http.request(self.href, "DELETE", headers=self.headers)
 
         if response.status == 200:
@@ -166,7 +169,6 @@ class GwcLayer(object):
             return (response, content)
         else:
             raise FailedRequestError(str(response) + content)
-
 
     def seed(self, operation, mimetype, gridset, minzoom, maxzoom, bbox):
         url = self.gwc.url + "seed/" + self.name + ".xml"
@@ -197,7 +199,6 @@ class GwcLayer(object):
         if response.status != 200:
             raise FailedRequestError(str(response) + content)
 
-
     def getSeedingState(self):
         url = self.gwc.url + 'seed/' + self.name + '.xml'
         headers = {'Content-type': 'text/json'}
@@ -212,7 +213,7 @@ class GwcLayer(object):
                     return array[0][0], array[0][1]
                 else:
                     return None
-            except Exception, e:
+            except Exception as e:
                 raise SeedingStatusParsingError()
             return content
 
@@ -223,7 +224,6 @@ class GwcLayer(object):
 
         if response.status != 200:
             raise FailedRequestError(str(response) + content)
-
 
 
 class SeedingStatusParsingError(Exception):

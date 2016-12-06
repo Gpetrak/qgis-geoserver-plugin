@@ -5,18 +5,21 @@
 #
 import os
 
-from PyQt4.QtCore import Qt, QByteArray, QDataStream, QIODevice
-from PyQt4.QtGui import (QTreeWidget,
-                         QAbstractItemView,
-                         QItemSelectionModel,
-                         QIcon,
-                         QAction,
-                         QMenu,
-                         QTreeWidgetItemIterator
-                        )
-from PyQt4.QtXml import QDomDocument
+from qgis.PyQt.QtCore import Qt, QByteArray, QDataStream, QIODevice, QItemSelectionModel
+from qgis.PyQt.QtWidgets import (QTreeWidget,
+                                 QAbstractItemView,
+                                 QAction,
+                                 QMenu,
+                                 QTreeWidgetItemIterator
+                                )
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtXml import QDomDocument
 
-from qgis.core import QgsMimeDataUtils, QgsMapLayerRegistry, QgsLayerTreeNode, QgsLayerTreeLayer
+from qgis.core import (QgsMimeDataUtils,
+                       QgsMapLayerRegistry,
+                       QgsLayerTreeNode,
+                       QgsLayerTreeLayer
+                      )
 
 from geoserverexplorer.gui.gsexploreritems import TreeItem
 from geoserverexplorer.qgis import uri as uri_utils

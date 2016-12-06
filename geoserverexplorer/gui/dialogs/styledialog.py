@@ -1,9 +1,10 @@
+from builtins import str
 # -*- coding: utf-8 -*-
 #
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4 import QtGui, QtCore
+from qgis.PyQt import QtGui, QtCore
 from geoserverexplorer.qgis import layers
 from geoserverexplorer.gui.gsnameutils import GSNameWidget, xmlNameFixUp,\
     xmlNameRegexMsg, xmlNameRegex
@@ -95,7 +96,7 @@ class StyleFromLayerDialog(QtGui.QDialog):
 
     def okPressed(self):
         self.layer = self.layerBox.currentText()
-        self.name = unicode(self.nameBox.definedName())
+        self.name = str(self.nameBox.definedName())
         self.close()
 
     def cancelPressed(self):
@@ -179,7 +180,7 @@ class PublishStyleDialog(QtGui.QDialog):
     def __init__(self, catalogs, layername, parent = None):
         super(PublishStyleDialog, self).__init__(parent)
         self.catalogs = catalogs
-        self.catalognames = catalogs.keys()
+        self.catalognames = list(catalogs.keys())
         self.layername = layername
         self.catalog = None
         self.name = None
@@ -265,8 +266,8 @@ class PublishStyleDialog(QtGui.QDialog):
         self.nameBox.setNames(styles)
 
     def okPressed(self):
-        self.name = unicode(self.nameBox.definedName())
-        self.catalog = unicode(self.catalogBox.currentText())
+        self.name = str(self.nameBox.definedName())
+        self.catalog = str(self.catalogBox.currentText())
         self.close()
 
     def cancelPressed(self):
