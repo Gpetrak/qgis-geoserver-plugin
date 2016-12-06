@@ -14,7 +14,7 @@ import sys
 import unittest
 
 from qgis.PyQt.QtCore import QSettings
-from qgis.core import QgsMapLayerRegistry,
+from qgis.core import QgsMapLayerRegistry
 from qgis.utils import iface
 
 from geoserverexplorer.qgis import layers, catalog
