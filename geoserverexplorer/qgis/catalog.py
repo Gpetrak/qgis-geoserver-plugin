@@ -4,36 +4,59 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-from qgis.core import *
-from PyQt4 import QtCore
-from geoserverexplorer.qgis import layers, exporter, utils
-from geoserver.catalog import ConflictingDataError, UploadError, FailedRequestError
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs,\
-    getGsCompatibleSld
-from geoserverexplorer.qgis import uri as uri_utils
+import requests
+
+from PyQt4.QtCore import QSettings
+
+try:
+    from qgis.core import QGis
+except:
+    from qgis.core import Qgis as QGis
+from qgis.core import (QgsDataSourceURI,
+                       QgsCredentials,
+                       QgsCoordinateTransform,
+                       QgsCoordinateReferenceSystem,
+                       QgsMessageLog,
+                       QgsVectorLayer,
+                       QgsRasterLayer,
+                       QgsMapLayerRegistry
+                      )
+
 from gsimporter.client import Client
+from geoserver.catalog import (ConflictingDataError,
+                               UploadError,
+                               FailedRequestError
+                              )
+
+from geoserverexplorer.geoserver import pem
 from geoserverexplorer.geoserver.pki import PKICatalog, PKIClient
 from geoserverexplorer.geoserver.auth import AuthCatalog, AuthClient
 from geoserverexplorer.geoserver.basecatalog import BaseCatalog
-from geoserverexplorer.geoserver import pem
-from geoserverexplorer.geoserver.util import groupsWithLayer, removeLayerFromGroups, \
-    addLayerToGroups
+from geoserverexplorer.geoserver.util import (groupsWithLayer,
+                                              removeLayerFromGroups,
+                                              addLayerToGroups
+                                             )
+
 from geoserverexplorer.gui.gsnameutils import xmlNameFixUp, xmlNameIsValid
-import requests
+
+from geoserverexplorer.qgis.sldadapter import adaptGsToQgs, getGsCompatibleSld
+from geoserverexplorer.qgis import layers, exporter, utils
+from geoserverexplorer.qgis import uri as uri_utils
 
 try:
     from processing.modeler.ModelerAlgorithm import ModelerAlgorithm
     from processing.script.ScriptAlgorithm import ScriptAlgorithm
-    from processing.core.parameters import *
-    from processing.core.outputs import *
+    from processing.core.parameters import ParameterRaster, ParameterVector
+    from processing.core.outputs import OutputRaster, OutputVector
 
-    from processing.gui.AlgorithmExecutor import *
+    from processing.gui.AlgorithmExecutor import runalg
     from processing.gui.SilentProgress import SilentProgress
     from processing.tools.dataobjects import getObjectFromUri as load
     from processing.modeler.ModelerUtils import ModelerUtils
     processingOk = True
 except Exception, e:
     processingOk = False
+
 
 def createGeoServerCatalog(service_url = "http://localhost:8080/geoserver/rest",
                            username="admin",
@@ -56,7 +79,7 @@ def createGeoServerCatalog(service_url = "http://localhost:8080/geoserver/rest",
         catalog.authid = authid
     else:
         # For QGIS > 2.12, use the new AuthCatalog and QgsNetworkAccessManager
-        settings = QtCore.QSettings()
+        settings = QSettings()
         cache_time = int(settings.value("/GeoServer/Settings/GeoServer/AuthCatalogXMLCacheTime", 180, int))
         catalog = AuthCatalog(service_url, authid, cache_time)
 
@@ -212,8 +235,6 @@ class CatalogWrapper(object):
     def _publishPostgisLayer(self, layer, workspace, overwrite, name, storename=None):
         uri = QgsDataSourceURI(layer.dataProvider().dataSourceUri())
 
-
-
         conname = self.getConnectionNameFromLayer(layer)
         storename = xmlNameFixUp(storename or conname)
 
@@ -340,7 +361,7 @@ class CatalogWrapper(object):
         title = name
         name = name.replace(" ", "_")
 
-        settings = QtCore.QSettings()
+        settings = QSettings()
         restApi = bool(settings.value("/GeoServer/Settings/GeoServer/UseRestApi", True, bool))
 
         if layer.type() not in (layer.RasterLayer, layer.VectorLayer):
@@ -401,7 +422,7 @@ class CatalogWrapper(object):
         host = uri.host()
         database = uri.database()
         port = uri.port()
-        settings = QtCore.QSettings()
+        settings = QSettings()
         settings.beginGroup(u'/PostgreSQL/connections')
         for name in settings.childGroups():
             settings.beginGroup(name)
@@ -518,7 +539,7 @@ class CatalogWrapper(object):
 
         if layer.type() == layer.RasterLayer:
             try:
-                hookFile = str(QtCore.QSettings().value("/GeoServer/Settings/GeoServer/PreuploadRasterHook", ""))
+                hookFile = str(QSettings().value("/GeoServer/Settings/GeoServer/PreuploadRasterHook", ""))
                 if hookFile:
                     alg = self.getAlgorithmFromHookFile(hookFile)
                     if (len(alg.parameters) == 1 and isinstance(alg.parameters[0], ParameterRaster)
@@ -534,7 +555,7 @@ class CatalogWrapper(object):
                 return layer
         elif layer.type() == layer.VectorLayer:
             try:
-                hookFile = str(QtCore.QSettings().value("/GeoServer/Settings/GeoServer/PreuploadVectorHook", ""))
+                hookFile = str(QSettings().value("/GeoServer/Settings/GeoServer/PreuploadVectorHook", ""))
                 if hookFile:
                     alg = self.getAlgorithmFromHookFile(hookFile)
                     if (len(alg.parameters) == 1 and isinstance(alg.parameters[0], ParameterVector)

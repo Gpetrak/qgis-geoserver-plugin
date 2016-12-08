@@ -8,28 +8,33 @@ Contextual help components for use in dialogs, etc.
 """
 
 import os
-from PyQt4 import QtGui, QtCore
+from PyQt4.QtCore import QSize
+from PyQt4.QtGui import (QLabel,
+                         QSizePolicy,
+                         QPixmap,
+                         QToolTip,
+                        )
 
 
 # noinspection PyAttributeOutsideInit, PyPep8Naming
-class InfoIcon(QtGui.QLabel):
+class InfoIcon(QLabel):
     def __init__(self, tip, parent=None):
-        QtGui.QLabel.__init__(self, parent)
+        QLabel.__init__(self, parent)
         self.tiptxt = tip
-        self.setSizePolicy(QtGui.QSizePolicy.Fixed,
-                           QtGui.QSizePolicy.Fixed)
-        self.setMaximumSize(QtCore.QSize(16, 16))
-        self.setMinimumSize(QtCore.QSize(16, 16))
-        infopx = QtGui.QPixmap(
+        self.setSizePolicy(QSizePolicy.Fixed,
+                           QSizePolicy.Fixed)
+        self.setMaximumSize(QSize(16, 16))
+        self.setMinimumSize(QSize(16, 16))
+        infopx = QPixmap(
             os.path.dirname(os.path.dirname(__file__)) + "/images/help.png")
         self.setPixmap(infopx)
 
         self.setMouseTracking(True)
 
     def mouseMoveEvent(self, event):
-        # QtGui.QToolTip.showText(self.mapToGlobal(event.pos()),
+        # QToolTip.showText(self.mapToGlobal(event.pos()),
         #                         self.tiptxt, self, self.rect())
-        QtGui.QToolTip.showText(self.mapToGlobal(event.pos()),
+        QToolTip.showText(self.mapToGlobal(event.pos()),
                                 self.tiptxt, self)
         event.ignore()
 

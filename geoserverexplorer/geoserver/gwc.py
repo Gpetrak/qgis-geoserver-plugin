@@ -3,14 +3,16 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+import json
 import httplib2
 from xml.etree.ElementTree import XML
 import xml.etree.ElementTree as ET
 from urlparse import urlparse
+
 from geoserver.catalog import FailedRequestError
-import json
 from geoserverexplorer.geoserver.pki import PKICatalog
 from geoserverexplorer.geoserver.auth import AuthCatalog
+
 
 class Gwc(object):
 

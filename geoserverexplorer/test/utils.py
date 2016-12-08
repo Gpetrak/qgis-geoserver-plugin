@@ -7,17 +7,20 @@ import os
 import re
 import tempfile
 import unittest
-from geoserver.util import shapefile_and_friends
-from geoserverexplorer.qgis.catalog import createGeoServerCatalog
 
+from PyQt4.QtNetwork import QSslCertificate, QSslKey, QSsl
 from qgis.core import (QgsMapLayerRegistry,
                        QgsAuthManager,
                        QgsAuthMethodConfig,
                        QgsAuthCertUtils)
-import qgis
+import qgis.utils
+
+from geoserver.util import shapefile_and_friends
+
 import geoserverexplorer
-from geoserverexplorer.gui.gsexploreritems import *
-from PyQt4.QtNetwork import QSslCertificate, QSslKey, QSsl
+import qgis
+from geoserverexplorer.qgis.catalog import createGeoServerCatalog
+from geoserverexplorer.gui.gsexploreritems import GsCatalogItem
 
 PREFIX = "qgis_plugin_test_"
 

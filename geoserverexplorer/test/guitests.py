@@ -3,29 +3,45 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import sys
 import os
-from qgis.core import *
-from qgis.utils import iface
-from PyQt4.QtCore import *
+import unittest
+
+from PyQt4.QtCore import Qt, QSettings, QRegExp
 from PyQt4.QtGui import QWidget, QHBoxLayout, QToolTip
 from PyQt4.QtTest import QTest
-from geoserverexplorer.geoserver import pem
-from geoserverexplorer.gui.dialogs.catalogdialog import DefineCatalogDialog
-from geoserverexplorer.gui.explorer import GeoServerExplorer
-from geoserverexplorer.gui.dialogs.groupdialog import LayerGroupDialog
-from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
-from geoserverexplorer.test.utils import *
-from geoserverexplorer.gui.dialogs.layerdialog import PublishLayersDialog
+from qgis.utils import iface
+
 from geoserver.catalog import Catalog
-from geoserverexplorer.qgis import layers
-from geoserverexplorer.gui.gsnameutils import GSNameWidget, xmlNameRegex, \
-    xmlNameRegexMsg, xmlNameFixUp
-from geoserverexplorer.gui.dialogs.gsnamedialog import GSNameDialog
+
+from geoserverexplorer.geoserver import pem
+
+from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.contextualhelp import InfoIcon
-from geoserverexplorer.gui.gsnameutils import xmlNameEmptyRegex
-from geoserverexplorer.test.utils import geoserverLocation, AUTHCFGID, AUTHTYPE
+from geoserverexplorer.gui.gsnameutils import (xmlNameEmptyRegex,
+                                               GSNameWidget,
+                                               xmlNameRegex,
+                                               xmlNameRegexMsg,
+                                               xmlNameFixUp
+                                              )
+
+from geoserverexplorer.gui.dialogs.catalogdialog import DefineCatalogDialog
+from geoserverexplorer.gui.dialogs.groupdialog import LayerGroupDialog
+from geoserverexplorer.gui.dialogs.layerdialog import PublishLayersDialog
+from geoserverexplorer.gui.dialogs.gsnamedialog import GSNameDialog
+
+from geoserverexplorer.qgis import layers
+
+from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
+from geoserverexplorer.test.utils import (AUTHCFGID,
+                                          AUTHTYPE,
+                                          geoserverLocation,
+                                          getGeoServerCatalog,
+                                          cleanCatalog,
+                                          GROUP,
+                                          WORKSPACE,
+                                          WORKSPACEB
+                                         )
 
 class CreateCatalogDialogTests(unittest.TestCase):
 
@@ -58,7 +74,6 @@ class CreateCatalogDialogTests(unittest.TestCase):
         self.assertEquals("name", dialog.name)
         self.assertEquals("http://"+geoserverLocation()+"/geoserver/rest", dialog.url)
         settings = QSettings()
-        settings.endGroup()
         settings.beginGroup("/GeoServer/Catalogs/name")
         settings.remove("")
         settings.endGroup()
@@ -77,7 +92,6 @@ class CreateCatalogDialogTests(unittest.TestCase):
         self.assertEquals("name", dialog.name)
         self.assertEquals("http://"+geoserverLocation()+"/geoserver/rest", dialog.url)
         settings = QSettings()
-        settings.endGroup()
         settings.beginGroup("/GeoServer/Catalogs/name")
         settings.remove("")
         settings.endGroup()
@@ -113,7 +127,6 @@ class CreateCatalogDialogTests(unittest.TestCase):
         okWidget = dialog.buttonBox.button(dialog.buttonBox.Ok)
         QTest.mouseClick(okWidget, Qt.LeftButton)
         settings = QSettings()
-        settings.endGroup()
         settings.beginGroup("/GeoServer/Catalogs/catalogname")
         settings.remove("")
         settings.endGroup()
@@ -176,7 +189,6 @@ class LayerDialogTests(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cleanCatalog(cls.cat)
-
 
     def testPublishLayersDialog(self):
         # test the content of the GUI

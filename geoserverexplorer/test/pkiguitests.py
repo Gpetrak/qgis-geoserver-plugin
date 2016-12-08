@@ -3,11 +3,10 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import os
 import sys
-from PyQt4.QtCore import *
-from qgis.core import *
+import unittest
+
 from geoserverexplorer.geoserver import pem
 from geoserverexplorer.test.guitests import CreateCatalogDialogTests
 from geoserverexplorer.test.guitests import GroupDialogTests

@@ -3,10 +3,10 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from qgis.core import *
+
 from geoserveralgorithm import GeoServerAlgorithm
-from processing.core.parameters import *
-from processing.core.outputs import *
+from processing.core.parameters import ParameterString
+from processing.core.outputs import OutputString
 
 
 class CreateWorkspace(GeoServerAlgorithm):

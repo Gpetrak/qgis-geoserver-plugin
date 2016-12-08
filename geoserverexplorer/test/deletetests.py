@@ -3,15 +3,23 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import os
 import sys
-from PyQt4.QtCore import *
-from qgis.core import *
+import unittest
+
+from PyQt4.QtCore import QSettings
+from qgis.core import QgsProject
 from qgis.utils import iface
-from geoserverexplorer.test.utils import PT1, safeName, PT2, WORKSPACE, WORKSPACEB, shapefile_and_friends
-from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
+
 from geoserverexplorer.qgis import layers
+from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
+from geoserverexplorer.test.utils import (PT1,
+                                          safeName,
+                                          PT2,
+                                          WORKSPACE,
+                                          WORKSPACEB,
+                                          shapefile_and_friends
+                                         )
 
 
 class DeleteTests(ExplorerIntegrationTest):
@@ -115,7 +123,6 @@ class DeleteTests(ExplorerIntegrationTest):
         layerItem = self.getLayerItem(pt1b)
         self.assertIsNone(layerItem)
 
-
     def testDeleteWorkspace(self):
         wsname = safeName("another_workspace")
         self.cat.create_workspace(wsname, "http://anothertesturl.com")
@@ -127,7 +134,6 @@ class DeleteTests(ExplorerIntegrationTest):
         self.assertIsNone(wsItem)
         ws = self.cat.get_workspace(wsname)
         self.assertIsNone(ws)
-
 
     def testDeleteGWCLayer(self):
         name = WORKSPACE + ":" + PT2

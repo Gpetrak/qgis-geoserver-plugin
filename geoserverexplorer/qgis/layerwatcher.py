@@ -3,10 +3,12 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from geoserverexplorer.qgis.utils import tempFilename
+from qgis.core import QgsMapLayerRegistry
+
 from geoserverexplorer.qgis import uri as uri_utils
+from geoserverexplorer.qgis.utils import tempFilename
 from geoserverexplorer.qgis.sldadapter import adaptGsToQgs
-from qgis.core import *
+
 _explorer = None
 
 def layerAdded(qgislayer):

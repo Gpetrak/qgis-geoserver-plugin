@@ -3,14 +3,15 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import os
 import sys
-from PyQt4.QtCore import *
-from qgis.core import *
+import unittest
+
+from PyQt4.QtCore import QSettings
+from qgis.core import QgsProject
 from qgis.utils import iface
+
 from geoserverexplorer.geoserver import pem
-from geoserverexplorer.test import utils
 from geoserverexplorer.test.deletetests import DeleteTests
 from geoserverexplorer.test import utils
 

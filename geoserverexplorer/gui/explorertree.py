@@ -4,27 +4,43 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-from qgis.core import *
-from geoserverexplorer.gui.gsexploreritems import *
-from geoserverexplorer.qgis.layers import *
-from geoserverexplorer.qgis import uri as uri_utils
-from PyQt4 import QtGui, QtCore, QtXml
+from PyQt4.QtCore import Qt, QByteArray, QDataStream, QIODevice
+from PyQt4.QtGui import (QTreeWidget,
+                         QAbstractItemView,
+                         QItemSelectionModel,
+                         QIcon,
+                         QAction,
+                         QMenu,
+                         QTreeWidgetItemIterator
+                        )
+from PyQt4.QtXml import QDomDocument
 
-class ExplorerTreeWidget(QtGui.QTreeWidget):
+from qgis.core import (QgsMimeDataUtils,
+                       QgsMapLayerRegistry,
+                       QgsLayerTreeNode,
+                       QgsLayerTreeLayer
+                      )
+
+from geoserverexplorer.gui.gsexploreritems import (GsCatalogsItem,
+                                                   GsLayerItem
+                                                  )
+from geoserverexplorer.qgis import uri as uri_utils
+
+class ExplorerTreeWidget(QTreeWidget):
 
     def __init__(self, explorer):
         self.explorer = explorer
-        QtGui.QTreeWidget.__init__(self, None)
-        self.setSelectionMode(QtGui.QAbstractItemView.ExtendedSelection)
+        QTreeWidget.__init__(self, None)
+        self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setColumnCount(1)
         self.header().hide()
         self.currentItemChanged.connect(self.highlightCurrentItem)
-        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.showTreePopupMenu)
         self.itemExpanded.connect(self.treeItemExpanded)
         self.itemClicked.connect(self.treeItemClicked)
         self.itemDoubleClicked.connect(self.treeItemDoubleClicked)
-        self.setDragDropMode(QtGui.QTreeWidget.DragDrop)
+        self.setDragDropMode(QTreeWidget.DragDrop)
         self.setAutoScroll(True)
         self.setAcceptDrops(True)
         self.setDropIndicatorShown(True)
@@ -66,7 +82,7 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
         # see also: self._selectionChanged
         items = self.selectedItems()
         if len(items) == 1 and self.currentItem() not in items:
-            self.setCurrentItem(items[0], 0, QtGui.QItemSelectionModel.Current)
+            self.setCurrentItem(items[0], 0, QItemSelectionModel.Current)
             self.treeItemClicked(items[0], 0)
             return
 
@@ -80,8 +96,8 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
             actions = item.multipleSelectionContextMenuActions(
                 self, self.explorer, items)
         if (isinstance(item, TreeItem)):
-            icon = QtGui.QIcon(os.path.dirname(__file__) + "/../images/refresh.png")
-            refreshAction = QtGui.QAction(icon, "Refresh", self.explorer)
+            icon = QIcon(os.path.dirname(__file__) + "/../images/refresh.png")
+            refreshAction = QAction(icon, "Refresh", self.explorer)
             refreshAction.triggered.connect(lambda: item.refreshContent(self.explorer))
             actions.append(refreshAction)
         self.explorer.setToolbarActions(actions)
@@ -122,7 +138,7 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
     def showMultipleSelectionPopupMenu(self, point):
         self.selectedItem = self.itemAt(point)
         point = self.mapToGlobal(point)
-        menu = QtGui.QMenu()
+        menu = QMenu()
         actions = self.selectedItem.multipleSelectionContextMenuActions(self, self.explorer, self.selectedItems())
         for action in actions:
             menu.addAction(action)
@@ -133,10 +149,10 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
         self.selectedItem = self.itemAt(point)
         if not isinstance(self.selectedItem, TreeItem):
             return
-        menu = QtGui.QMenu()
+        menu = QMenu()
         if (isinstance(self.selectedItem, TreeItem) and hasattr(self.selectedItem, 'populate')):
-            refreshIcon = QtGui.QIcon(os.path.dirname(__file__) + "/../images/refresh.png")
-            refreshAction = QtGui.QAction(refreshIcon, "Refresh", None)
+            refreshIcon = QIcon(os.path.dirname(__file__) + "/../images/refresh.png")
+            refreshAction = QAction(refreshIcon, "Refresh", None)
             refreshAction.triggered.connect(lambda: self.selectedItem.refreshContent(self.explorer))
             menu.addAction(refreshAction)
         point = self.mapToGlobal(point)
@@ -147,7 +163,7 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
 
     def findAllItems(self, element):
         allItems = []
-        iterator = QtGui.QTreeWidgetItemIterator(self)
+        iterator = QTreeWidgetItemIterator(self)
         value = iterator.value()
         while value:
             if hasattr(value, 'element'):
@@ -187,9 +203,9 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
             return ["application/x-qabstractitemmodeldatalist", self.QGIS_URI_MIME, self.QGIS_LEGEND_MIME]
 
     def mimeData(self, items):
-        mimeData = QtGui.QTreeWidget.mimeData(self, items)
-        encodedData = QtCore.QByteArray()
-        stream = QtCore.QDataStream(encodedData, QtCore.QIODevice.WriteOnly)
+        mimeData = QTreeWidget.mimeData(self, items)
+        encodedData = QByteArray()
+        stream = QDataStream(encodedData, QIODevice.WriteOnly)
 
         for item in items:
             if isinstance(item, GsLayerItem):
@@ -224,7 +240,7 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
                     elements.append(uri)
             elif data.hasFormat(self.QGIS_LEGEND_MIME):
                 encodedData = data.data('application/qgis.layertreemodeldata')
-                doc = QtXml.QDomDocument()
+                doc = QDomDocument()
                 if not doc.setContent(encodedData):
                     return
                 layerRegistry = QgsMapLayerRegistry.instance()
@@ -250,5 +266,5 @@ class ExplorerTreeWidget(QtGui.QTreeWidget):
             self.explorer.setProgress(i)
         self.explorer.resetActivity()
 
-        event.setDropAction(QtCore.Qt.CopyAction)
+        event.setDropAction(Qt.CopyAction)
         event.accept()

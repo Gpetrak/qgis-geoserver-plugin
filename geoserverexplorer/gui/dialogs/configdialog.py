@@ -4,15 +4,24 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-from PyQt4 import QtGui, QtCore
+
+from PyQt4.QtCore import Qt, QSettings
+from PyQt4.QtGui import (QDialog,
+                         QVBoxLayout,
+                         QTreeWidget,
+                         QDialogButtonBox,
+                         QIcon,
+                         QTreeWidgetItem,
+                         QTreeWidgetItemIterator
+                        )
 from qgis.gui import QgsFilterLineEdit
 
 
-class ConfigDialog(QtGui.QDialog):
+class ConfigDialog(QDialog):
 
     def __init__(self, explorer):
         self.explorer = explorer
-        QtGui.QDialog.__init__(self)
+        QDialog.__init__(self)
         self.setupUi()
         if hasattr(self.searchBox, 'setPlaceholderText'):
             self.searchBox.setPlaceholderText(self.tr("Search..."))
@@ -24,17 +33,17 @@ class ConfigDialog(QtGui.QDialog):
         self.setMinimumWidth(500)
         self.setMinimumHeight(400)
         self.resize(640, 450)
-        self.verticalLayout = QtGui.QVBoxLayout(self)
+        self.verticalLayout = QVBoxLayout(self)
         self.verticalLayout.setSpacing(2)
         self.verticalLayout.setMargin(0)
         self.searchBox = QgsFilterLineEdit(self)
         self.verticalLayout.addWidget(self.searchBox)
-        self.tree = QtGui.QTreeWidget(self)
+        self.tree = QTreeWidget(self)
         self.tree.setAlternatingRowColors(True)
         self.verticalLayout.addWidget(self.tree)
-        self.buttonBox = QtGui.QDialogButtonBox(self)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtGui.QDialogButtonBox.Cancel|QtGui.QDialogButtonBox.Ok)
+        self.buttonBox = QDialogButtonBox(self)
+        self.buttonBox.setOrientation(Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.setWindowTitle("Configuration options")
@@ -72,7 +81,7 @@ class ConfigDialog(QtGui.QDialog):
         generalParams = [("ShowDescription", "Show description panel", True),
                          ("ConfirmDelete", "Ask confirmation before deleting",True),
                          ("ShowToolbar", "Show toolbar", False)]
-        icon = QtGui.QIcon(os.path.dirname(__file__) + "/../../images/geoserver.png")
+        icon = QIcon(os.path.dirname(__file__) + "/../../images/geoserver.png")
         generalItem = self._getItem("General", icon, generalParams)
         self.tree.addTopLevelItem(generalItem)
 
@@ -96,7 +105,7 @@ class ConfigDialog(QtGui.QDialog):
         self.tree.setColumnWidth(0, 400)
 
     def _getItem(self, name, icon, params):
-        item = QtGui.QTreeWidgetItem()
+        item = QTreeWidgetItem()
         item.setText(0, name)
         item.setIcon(0, icon)
         for param in params:
@@ -108,7 +117,7 @@ class ConfigDialog(QtGui.QDialog):
 
 
     def accept(self):
-        iterator = QtGui.QTreeWidgetItemIterator(self.tree)
+        iterator = QTreeWidgetItemIterator(self.tree)
         value = iterator.value()
         while value:
             if hasattr(value, 'saveValue'):
@@ -116,28 +125,28 @@ class ConfigDialog(QtGui.QDialog):
             iterator += 1
             value = iterator.value()
         self.explorer.refreshContent()
-        QtGui.QDialog.accept(self)
+        QDialog.accept(self)
 
-class TreeSettingItem(QtGui.QTreeWidgetItem):
+class TreeSettingItem(QTreeWidgetItem):
 
     def __init__(self, name, description, defaultValue):
-        QtGui.QTreeWidgetItem.__init__(self)
+        QTreeWidgetItem.__init__(self)
         self.name = name
         self.setText(0, description)
         if isinstance(defaultValue,bool):
-            self.value = QtCore.QSettings().value(name, defaultValue=defaultValue, type=bool)
+            self.value = QSettings().value(name, defaultValue=defaultValue, type=bool)
             if self.value:
-                self.setCheckState(1, QtCore.Qt.Checked)
+                self.setCheckState(1, Qt.Checked)
             else:
-                self.setCheckState(1, QtCore.Qt.Unchecked)
+                self.setCheckState(1, Qt.Unchecked)
         else:
-            self.value = QtCore.QSettings().value(name, defaultValue=defaultValue)
-            self.setFlags(self.flags() | QtCore.Qt.ItemIsEditable)
+            self.value = QSettings().value(name, defaultValue=defaultValue)
+            self.setFlags(self.flags() | Qt.ItemIsEditable)
             self.setText(1, unicode(self.value))
 
     def saveValue(self):
         if isinstance(self.value,bool):
-            self.value = self.checkState(1) == QtCore.Qt.Checked
+            self.value = self.checkState(1) == Qt.Checked
         else:
             self.value = self.text(1)
-        QtCore.QSettings().setValue(self.name, self.value)
+        QSettings().setValue(self.name, self.value)

@@ -3,21 +3,29 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4 import QtCore, QtGui
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import (QWidget,
+                         QVBoxLayout,
+                         QTreeWidget,
+                         QTreeWidgetItem,
+                         QPushButton,
+                         QDialogButtonBox
+                        )
 
-class ParameterEditor(QtGui.QWidget):
+
+class ParameterEditor(QWidget):
     def __init__(self, settings, explorer):
         self.explorer = explorer
         self.settings = settings
         self.parameters = settings.settings()
-        QtGui.QWidget.__init__(self)
+        QWidget.__init__(self)
         self.setupUi()
 
     def setupUi(self):
-        layout = QtGui.QVBoxLayout()
+        layout = QVBoxLayout()
         layout.setSpacing(2)
         layout.setMargin(0)
-        self.tree = QtGui.QTreeWidget()
+        self.tree = QTreeWidget()
         self.tree.setAlternatingRowColors(True)
         self.tree.headerItem().setText(0, "Setting")
         self.tree.headerItem().setText(1, "Value")
@@ -25,21 +33,21 @@ class ParameterEditor(QtGui.QWidget):
         layout.addWidget(self.tree)
         for section in self.parameters:
             params = self.parameters[section]
-            paramsItem = QtGui.QTreeWidgetItem()
+            paramsItem = QTreeWidgetItem()
             paramsItem.setText(0, section)
             for name, value in params:
-                item = QtGui.QTreeWidgetItem()
+                item = QTreeWidgetItem()
                 item.setText(0, name)
                 item.setText(1, value)
-                item.setFlags(item.flags() | QtCore.Qt.ItemIsEditable)
+                item.setFlags(item.flags() | Qt.ItemIsEditable)
                 paramsItem.addChild(item)
             self.tree.addTopLevelItem(paramsItem)
-        button = QtGui.QPushButton()
+        button = QPushButton()
         button.setText("Save")
         button.clicked.connect(self.saveSettings)
-        buttonBox = QtGui.QDialogButtonBox()
-        buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        buttonBox.addButton(button, QtGui.QDialogButtonBox.ActionRole)
+        buttonBox = QDialogButtonBox()
+        buttonBox.setOrientation(Qt.Horizontal)
+        buttonBox.addButton(button, QDialogButtonBox.ActionRole)
         layout.addWidget(buttonBox)
         self.setLayout(layout)
 

@@ -3,9 +3,11 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from .basecatalog import BaseCatalog
 import httplib2
 from urlparse import urlparse
+
+from geoserverexplorer.geoserver.basecatalog import BaseCatalog
+
 
 def retryMethodDecorator(func):
     def decorator(*args, **kwargs):

@@ -4,7 +4,6 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-import xmlrpclib
 import zipfile
 
 from paver.easy import *
@@ -239,7 +238,7 @@ def _make_zip(zipFile, options):
         for f in files:
             relpath = os.path.join(options.plugin.name, "docs", os.path.relpath(root, options.sphinx.builddir))
             zipFile.write(path(root) / f, path(relpath) / f)
- 
+
 @task
 def builddocs(options):
     sh("git submodule init")

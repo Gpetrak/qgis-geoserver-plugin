@@ -3,13 +3,23 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import os
 import sys
-from geoserverexplorer.test.utils import PT1, WORKSPACE, WORKSPACEB, STYLE, PT2, PT3,\
-    GROUP, GEOLOGY_GROUP, LANDUSE, GEOFORMS
-from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
+import unittest
+
 from geoserverexplorer.qgis import layers
+from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
+from geoserverexplorer.test.utils import (PT1,
+                                          WORKSPACE,
+                                          WORKSPACEB,
+                                          STYLE,
+                                          PT2,
+                                          PT3,
+                                          GROUP,
+                                          GEOLOGY_GROUP,
+                                          LANDUSE,
+                                          GEOFORMS
+                                         )
 
 class DragDropTests(ExplorerIntegrationTest):
 
@@ -51,7 +61,6 @@ class DragDropTests(ExplorerIntegrationTest):
     # Drag & drop explorer tree element(s) into another explorer tree element
     #===========================================================================
 
-
     def testDropGsStyleInGsLayerItem(self):
         styleItem = self.getStyleItem(STYLE)
         self.assertIsNotNone(styleItem)
@@ -66,7 +75,6 @@ class DragDropTests(ExplorerIntegrationTest):
         layerItem = self.getLayerItem(PT3)
         groupItem.acceptDroppedItems(self.tree, self.explorer, [layerItem])
         self.assertEquals(childCount + 1, groupItem.childCount())
-
 
 ##################################################################################################
 

@@ -3,17 +3,23 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from qgis.core import *
-from qgis.gui import *
-from PyQt4 import QtCore
+
+from PyQt4.QtCore import pyqtSignal, Qt
+
+from qgis.core import QgsPoint, QgsRectangle
+from qgis.gui import QgsMapTool, QgsMapToolEmitPoint, QgsRubberBand
 
 class RectangleMapTool(QgsMapToolEmitPoint):
+
+    rectangleCreated = pyqtSignal()
+    deactivated = pyqtSignal()
+
     def __init__(self, canvas):
         self.canvas = canvas
         QgsMapToolEmitPoint.__init__(self, self.canvas)
 
         self.rubberBand = QgsRubberBand(self.canvas, QGis.Polygon )
-        self.rubberBand.setColor(QtCore.Qt.red )
+        self.rubberBand.setColor(Qt.red )
         self.rubberBand.setWidth( 1 )
 
         self.reset()
@@ -33,7 +39,7 @@ class RectangleMapTool(QgsMapToolEmitPoint):
     def canvasReleaseEvent(self, e):
         self.isEmittingPoint = False
         if self.rectangle() != None:
-            self.emit(QtCore.SIGNAL("rectangleCreated()"))
+            self.rectangleCreated.emit()
 
     def canvasMoveEvent(self, e):
         if not self.isEmittingPoint:
@@ -80,4 +86,4 @@ class RectangleMapTool(QgsMapToolEmitPoint):
 
     def deactivate(self):
         QgsMapTool.deactivate(self)
-        self.emit(QtCore.SIGNAL("deactivated()"))
+        self.deactivated.emit()

@@ -3,10 +3,15 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from .basecatalog import BaseCatalog
 import httplib2
 from gsimporter.client import Client, _Client
-from qgis.core import QGis
+
+from geoserverexplorer.geoserver.basecatalog import BaseCatalog
+
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
 
 class PKICatalog(BaseCatalog):
 

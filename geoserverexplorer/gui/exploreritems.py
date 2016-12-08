@@ -3,20 +3,24 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from geoserverexplorer.geoserver import util
-from PyQt4 import QtGui, QtCore
+from PyQt4.QtCore import Qt
+from PyQt4.QtGui import (QTreeWidgetItem,
+                         QTextBrowser
+                        )
 
-class TreeItem(QtGui.QTreeWidgetItem):
+from geoserverexplorer.geoserver import util
+
+class TreeItem(QTreeWidgetItem):
     def __init__(self, element, icon = None, text = None):
-        QtGui.QTreeWidgetItem.__init__(self)
+        QTreeWidgetItem.__init__(self)
         self.element = element
-        self.setData(0, QtCore.Qt.UserRole, element)
+        self.setData(0, Qt.UserRole, element)
         self._text = text
         text = text if text is not None else util.name(element)
         self.setText(0, text)
         if icon is not None:
             self.setIcon(0, icon)
-        self.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable)
+        self.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
 
     def refresh(self):
         text = self._text if self._text is not None else util.name(self.element)
@@ -30,14 +34,14 @@ class TreeItem(QtGui.QTreeWidgetItem):
 
     def descriptionWidget(self, tree, explorer):
         text = self.getDescriptionHtml(tree, explorer)
-        class MyBrowser(QtGui.QTextBrowser):
+        class MyBrowser(QTextBrowser):
             def loadResource(self, type, name):
                 return None
         self.description = MyBrowser()
         self.description.setOpenLinks(False)
         def linkClicked(url):
             self.linkClicked(tree, explorer, url)
-        self.description.connect(self.description, QtCore.SIGNAL("anchorClicked(const QUrl&)"), linkClicked)
+        self.description.anchorClicked.connect(linkClicked)
         self.description.setHtml(text)
         return self.description
 

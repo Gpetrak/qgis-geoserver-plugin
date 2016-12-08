@@ -8,15 +8,29 @@ Utilities to create a user-defined name for a GeoServer component, with optional
 validation.
 """
 
-from PyQt4 import QtGui, QtCore
+from PyQt4.QtCore import (pyqtSignal,
+                          pyqtSlot,
+                          Qt,
+                          QRegExp,
+                          QTimer,
+                          QPoint,
+                          QObject
+                         )
+from PyQt4.QtGui import (QApplication,
+                         QWidget,
+                         QHBoxLayout,
+                         QComboBox,
+                         QToolTip
+                        )
+
+from geoserverexplorer.gui.contextualhelp import InfoIcon
+
 
 APP = None
 if __name__ == '__main__':
     import sys
     # instantiate QApplication before importing QtGui subclasses
-    APP = QtGui.QApplication(sys.argv)
-
-from geoserverexplorer.gui.contextualhelp import InfoIcon
+    APP = QApplication(sys.argv)
 
 
 # noinspection PyPep8Naming
@@ -24,7 +38,7 @@ def xmlNameFixUp(name):
     # TODO: handle bad unicode characters, too
     n = name.replace(u' ', u'_')  # doesn't hurt to always do this
     if not xmlNameIsValid(n) and not n.startswith(u'_'):
-        rx = QtCore.QRegExp(r'^(?=XML|\d|\W).*', QtCore.Qt.CaseInsensitive)
+        rx = QRegExp(r'^(?=XML|\d|\W).*', Qt.CaseInsensitive)
         if rx.exactMatch(n):
             n = u"_{0}".format(n)
     return n
@@ -42,7 +56,7 @@ def xmlNameEmptyRegex():
 
 # noinspection PyPep8Naming
 def xmlNameIsValid(name, regex=None):
-    rx = QtCore.QRegExp(regex or xmlNameRegex(), QtCore.Qt.CaseInsensitive)
+    rx = QRegExp(regex or xmlNameRegex(), Qt.CaseInsensitive)
     return rx.exactMatch(name)
 
 
@@ -58,11 +72,11 @@ def xmlNameRegexMsg():
 
 
 # noinspection PyAttributeOutsideInit, PyPep8Naming
-class GSNameWidget(QtGui.QWidget):
+class GSNameWidget(QWidget):
 
-    nameValidityChanged = QtCore.pyqtSignal(bool)  # pragma: no cover
-    invalidTextChanged = QtCore.pyqtSignal(str)  # pragma: no cover
-    overwritingChanged = QtCore.pyqtSignal(bool)  # pragma: no cover
+    nameValidityChanged = pyqtSignal(bool)  # pragma: no cover
+    invalidTextChanged = pyqtSignal(str)  # pragma: no cover
+    overwritingChanged = pyqtSignal(bool)  # pragma: no cover
 
     def __init__(self, name='', namemsg='', nameregex='', nameregexmsg='',
                  names=None, unique=False,
@@ -85,11 +99,11 @@ class GSNameWidget(QtGui.QWidget):
         self.validateName()
 
     def initGui(self):
-        layout = QtGui.QHBoxLayout()
+        layout = QHBoxLayout()
         layout.setMargin(0)
         layout.setSpacing(6)
 
-        self.nameBox = QtGui.QComboBox(self)
+        self.nameBox = QComboBox(self)
         self.setMinimumWidth(200)
         self.nameBox.setEditable(True)
         # add default name to choice of names, so user can select it again
@@ -139,23 +153,23 @@ class GSNameWidget(QtGui.QWidget):
     def overwritingName(self):
         return self.overwriting
 
-    @QtCore.pyqtSlot(str)
+    @pyqtSlot(str)
     def showInvalidToolTip(self, txt):
         bxpos = self.nameBox.pos()
-        QtCore.QTimer.singleShot(250, lambda:
-        QtGui.QToolTip.showText(
+        QTimer.singleShot(250, lambda:
+        QToolTip.showText(
             self.mapToGlobal(
-                QtCore.QPoint(bxpos.x(),
+                QPoint(bxpos.x(),
                               bxpos.y() + self.nameBox.height()/2)),
             txt,
             self.nameBox) if self.nameBox else None)
 
-    @QtCore.pyqtSlot(str)
+    @pyqtSlot(str)
     def setName(self, txt):
         self.name = txt
         self.nameBox.lineEdit().setText(txt)
 
-    @QtCore.pyqtSlot(list)
+    @pyqtSlot(list)
     def setNames(self, names):
         curname = self.nameBox.currentText()
         self.names = names
@@ -173,7 +187,7 @@ class GSNameWidget(QtGui.QWidget):
         else:
             self.validateName()
 
-    @QtCore.pyqtSlot(str, str)
+    @pyqtSlot(str, str)
     def setNameRegex(self, regex, regexmsg):
         self.nameregex = regex
         self.nameregexmsg = regexmsg
@@ -181,22 +195,22 @@ class GSNameWidget(QtGui.QWidget):
             self.allowempty = True
         self.validateName()
 
-    @QtCore.pyqtSlot(int)
+    @pyqtSlot(int)
     def setMaxLength(self, num):
         self.maxlength = num
         self.validateName()
 
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def setAllowEmpty(self, empty):
         self.allowempty = empty
         self.validateName()
 
-    @QtCore.pyqtSlot(bool)
+    @pyqtSlot(bool)
     def setUnique(self, unique):
         self.unique = self.hasnames and unique
         self.validateName()
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def validateName(self, name=None):
         if name is None:
             name = self.nameBox.lineEdit().text()
@@ -212,7 +226,7 @@ class GSNameWidget(QtGui.QWidget):
 
         # validate regex, if defined
         if valid and self.nameregex:
-            rx = QtCore.QRegExp(self.nameregex, QtCore.Qt.CaseInsensitive)
+            rx = QRegExp(self.nameregex, Qt.CaseInsensitive)
             invalidtxt = "Name doesn't match expression {0}"\
                 .format(self.nameregex)
             valid = rx.exactMatch(name)
@@ -235,7 +249,7 @@ class GSNameWidget(QtGui.QWidget):
         if not valid:
             self.invalidTextChanged.emit(invalidtxt)
 
-    @QtCore.pyqtSlot()
+    @pyqtSlot()
     def highlightName(self):
         self.nameBox.lineEdit().setStyleSheet(
             '' if self.valid else 'QLineEdit {color: rgb(200, 0, 0)}')
@@ -243,13 +257,13 @@ class GSNameWidget(QtGui.QWidget):
 
 if __name__ == '__main__':
     # noinspection PyPep8Naming
-    class BounceObj(QtCore.QObject):
+    class BounceObj(QObject):
 
-        @QtCore.pyqtSlot(bool)
+        @pyqtSlot(bool)
         def valididtyChanged(self, valid):
             print "valididty changed: {0}".format(valid)
 
-        @QtCore.pyqtSlot(bool)
+        @pyqtSlot(bool)
         def overwritingChanged(self, overwrite):
             print "overwriting changed: {0}".format(overwrite)
 
@@ -280,20 +294,20 @@ def isNameValid(name, names, maxlength=0, nameregex=''):
 
         # validate regex, if defined
         if valid and nameregex:
-            rx = QtCore.QRegExp(nameregex, 0)
+            rx = QRegExp(nameregex, 0)
             valid = rx.exactMatch(name)
 
         return valid
 
 if __name__ == '__main__':
     # noinspection PyPep8Naming
-    class BounceObj(QtCore.QObject):
+    class BounceObj(QObject):
 
-        @QtCore.pyqtSlot(bool)
+        @pyqtSlot(bool)
         def valididtyChanged(self, valid):
             print "valididty changed: {0}".format(valid)
 
-        @QtCore.pyqtSlot(bool)
+        @pyqtSlot(bool)
         def overwritingChanged(self, overwrite):
             print "overwriting changed: {0}".format(overwrite)
 

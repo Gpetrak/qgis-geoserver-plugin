@@ -3,8 +3,9 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import sys
+import unittest
+
 from geoserverexplorer.test import utils
 from geoserverexplorer.test.pkicatalogtests import suite as pkiCatalogSuite
 from geoserverexplorer.test.pkideletetests import suite as pkiDeleteSuite

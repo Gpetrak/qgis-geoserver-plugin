@@ -5,8 +5,16 @@
 #
 import os
 import tempfile
-from qgis.core import *
 import uuid
+
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
+
+# use wildcard import for auth stuff
+from qgis.core import *
+
 from geoserverexplorer.geoserver.pki import PKICatalog
 
 TEMP_CERT_FILE_PREFIX = "tmppki_"
@@ -115,6 +123,3 @@ def removeCatalogPkiTempFiles(catalog):
             os.remove(catalog.keyfile)
         if catalog.ca_cert.startswith(TEMP_CERT_FILE_PREFIX):
             os.remove(catalog.cafile)
-
-
-

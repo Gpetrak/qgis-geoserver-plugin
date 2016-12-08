@@ -3,7 +3,7 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from qgis.core import *
+from qgis.core import QgsMapLayerRegistry
 from geoserverexplorer import config
 
 ALL_TYPES = -1
@@ -40,5 +40,3 @@ def getGroups():
             groupLayers = rel[1]
             groups[groupName] = [QgsMapLayerRegistry.instance().mapLayer(layerid) for layerid in groupLayers]
     return groups
-
-

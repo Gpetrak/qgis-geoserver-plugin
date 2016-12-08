@@ -3,20 +3,31 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-import unittest
 import os
-import sys
-from geoserverexplorer.qgis import layers, catalog
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs,\
-    getGsCompatibleSld
-from qgis.core import *
-from qgis.utils import iface, QGis
-from PyQt4.QtCore import *
-from geoserverexplorer.test import utils
-from geoserverexplorer.test.utils import PT1, DEM, DEM2, PT1JSON, DEMASCII,\
-    GEOLOGY_GROUP, GEOFORMS, LANDUSE, HOOK, WORKSPACE, WORKSPACEB
 import re
-from .utils import UtilsTestCase
+import sys
+import unittest
+
+from PyQt4.QtCore import QSettings
+from qgis.core import QgsMapLayerRegistry
+from qgis.utils import iface
+
+from geoserverexplorer.qgis import layers, catalog
+from geoserverexplorer.qgis.sldadapter import adaptGsToQgs, getGsCompatibleSld
+from geoserverexplorer.test import utils
+from geoserverexplorer.test.utils import (PT1,
+                                          DEM,
+                                          DEM2,
+                                          PT1JSON,
+                                          DEMASCII,
+                                          GEOLOGY_GROUP,
+                                          GEOFORMS,
+                                          LANDUSE,
+                                          HOOK,
+                                          WORKSPACE,
+                                          WORKSPACEB,
+                                          UtilsTestCase
+                                         )
 
 
 class CatalogTests(UtilsTestCase):
@@ -40,7 +51,6 @@ class CatalogTests(UtilsTestCase):
     def tearDownClass(cls):
         utils.cleanCatalog(cls.cat.catalog)
 
-
     def testVectorLayerRoundTrip(self):
         self.cat.publishLayer(PT1, self.ws, name=PT1)
         self.assertIsNotNone(self.cat.catalog.get_layer(PT1))
@@ -49,7 +59,6 @@ class CatalogTests(UtilsTestCase):
         QgsMapLayerRegistry.instance().removeMapLayer(layer.id())
         self.cat.catalog.delete(self.cat.catalog.get_layer(PT1), recurse=True)
         #TODO: more checking to ensure that the layer in the project is correct
-
 
     def testDuplicatedLayerNamesInDifferentWorkSpaces(self):
         """
@@ -85,7 +94,6 @@ class CatalogTests(UtilsTestCase):
         QgsMapLayerRegistry.instance().removeMapLayer(layerb.id())
         self.cat.catalog.delete(self.cat.catalog.get_layer(pt1), recurse=True)
         self.cat.catalog.delete(self.cat.catalog.get_layer(pt1b), recurse=True)
-
 
     def testRasterLayerRoundTrip(self):
         self.cat.publishLayer(DEM, self.ws, name = DEM)

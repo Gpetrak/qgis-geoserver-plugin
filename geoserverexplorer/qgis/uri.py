@@ -4,7 +4,15 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import urllib
+
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
+
+# use wildcard import for auth stuff
 from qgis.core import *
+
 from geoserver.layer import Layer
 from geoserver.layergroup import LayerGroup
 

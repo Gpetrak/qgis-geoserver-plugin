@@ -4,9 +4,14 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-from qgis.core import *
+
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
+
 from geoserveralgorithm import GeoServerAlgorithm
-from processing.core.parameters import *
+from processing.core.parameters import ParameterVector, ParameterString
 from processing.tools import dataobjects
 
 
@@ -38,6 +43,11 @@ class UploadVector(GeoServerAlgorithm):
         self.addBaseParameters()
         self.name = 'Upload vector'
         self.group = 'GeoServer tools'
-        self.addParameter(ParameterVector(self.INPUT, 'Layer to import',
-                          [ParameterVector.VECTOR_TYPE_ANY]))
+        if QGis.QGIS_VERSION_INT < 29900:
+            self.addParameter(ParameterVector(self.INPUT, 'Layer to import',
+                              [ParameterVector.VECTOR_TYPE_ANY]))
+        else:
+            self.addParameter(ParameterVector(self.INPUT, 'Layer to import',
+                              [dataobjects.TYPE_VECTOR_ANY]))
+
         self.addParameter(ParameterString(self.WORKSPACE, 'Workspace'))

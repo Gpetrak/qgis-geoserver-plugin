@@ -10,9 +10,35 @@ This is a quick and dirty solution until both programs support the same specific
 
 import re
 import os
-from PyQt4.QtXml import *
-from qgis.core import *
 import math
+
+from PyQt4.QtXml import QDomDocument
+
+try:
+    from qgis.core import QGis
+except ImportError:
+    from qgis.core import Qgis as QGis
+
+from qgis.core import (QgsMapLayer,
+                       QgsApplication,
+                       QgsSVGFillSymbolLayer,
+                       QgsSingleBandGrayRenderer,
+                       QgsSingleBandPseudoColorRenderer
+                      )
+
+if QGis.QGIS_VERSION_INT < 29900:
+    from qgis.core import (QgsSingleSymbolRendererV2,
+                           QgsCategorizedSymbolRendererV2,
+                           QgsGraduatedSymbolRendererV2,
+                           QgsSvgMarkerSymbolLayerV2,
+                           QgsMarkerLineSymbolLayerV2
+                          )
+else:
+    from qgis.core import QgsSingleSymbolRenderer as QgsSingleSymbolRendererV2
+    from qgis.core import QgsCategorizedSymbolRenderer as QgsCategorizedSymbolRendererV2
+    from qgis.core import QgsGraduatedSymbolRenderer as QgsGraduatedSymbolRendererV2
+    from qgis.core import QgsSvgMarkerSymbolLayer as QgsSvgMarkerSymbolLayerV2
+    from qgis.core import QgsMarkerLineSymbolLayer as QgsMarkerLineSymbolLayerV2
 
 SIZE_FACTOR = 4
 RASTER_SLD_TEMPLATE = ('<?xml version="1.0" encoding="UTF-8"?>'
@@ -89,7 +115,7 @@ def adaptQgsToGs(sld, layer):
         markerIndex = re.findall('<sld:MarkIndex>.*?</sld:MarkIndex>', arr)
         markerIndexValue=markerIndex[0][15:-16]
         sld = sld.replace(arr, '<WellKnownName>'+policeValue+'#'+hex(int(markerIndexValue))+'</WellKnownName>')
-        
+
     icons = []
     renderer = layer.rendererV2()
     if isinstance(renderer, QgsSingleSymbolRendererV2):
@@ -100,7 +126,6 @@ def adaptQgsToGs(sld, layer):
     elif isinstance(renderer, QgsGraduatedSymbolRendererV2):
         for ran in renderer.ranges():
             icons.extend(getReadyToUploadSvgIcons(ran.symbol()))
-
 
     for icon in icons:
         for path in QgsApplication.svgPaths():
