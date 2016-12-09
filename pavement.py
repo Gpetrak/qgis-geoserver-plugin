@@ -55,26 +55,31 @@ def setup(options):
         ext_libs.rmtree()
     ext_libs.makedirs()
     runtime, test = read_requirements()
+
+    try:
+        import pip
+    except:
+        error('FATAL: Unable to import pip, please install it first!')
+        sys.exit(1)
+
     os.environ['PYTHONPATH']=ext_libs.abspath()
     for req in runtime + test:
-        if '#egg' in req:
+        if "#egg" in req:
             urlspec, req = req.split('#egg=')
             localpath = ext_src / req
-            if not develop:
-                if localpath.exists():
-                    cwd = os.getcwd()
-                    os.chdir(localpath)
-                    print(localpath)
-                    sh('git pull')
-                    os.chdir(cwd)
-                else:
-                    sh('git clone  %s %s' % (urlspec, localpath))
+            if os.path.exists(localpath):
+                cwd = os.getcwd()
+                os.chdir(localpath)
+                sh("git pull")
+                os.chdir(cwd)
+            else:
+                sh('git clone  %s %s' % (urlspec, localpath))
             req = localpath
 
-        sh('easy_install -a -d %(ext_libs)s %(dep)s' % {
-            'ext_libs' : ext_libs.abspath(),
-            'dep' : req
-        })
+        pip.main(['install',
+                  '-t',
+                  ext_libs.abspath(),
+                  req])
 
 
 def read_requirements():
