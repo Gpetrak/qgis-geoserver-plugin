@@ -13,6 +13,6 @@ writer = VectorWriter(output, None, provider.fields(),
 
 features = processing.features(vectorLayer)
 
-writer.addFeature(features.iter.next())
+writer.addFeature(next(features.iter))
 
 del writer

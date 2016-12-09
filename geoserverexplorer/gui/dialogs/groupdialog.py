@@ -3,19 +3,23 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import pyqtSlot, Qt, QMetaObject
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QHBoxLayout,
-                         QLabel,
-                         QSizePolicy,
-                         QDialogButtonBox,
-                         QTableWidget,
-                         QHeaderView,
-                         QPushButton,
-                         QCheckBox,
-                         QComboBox
-                        )
+from builtins import zip
+from builtins import str
+from builtins import range
+
+from qgis.PyQt.QtCore import pyqtSlot, Qt, QMetaObject
+from qgis.PyQt.QtWidgets import (QDialog,
+                                 QVBoxLayout,
+                                 QHBoxLayout,
+                                 QLabel,
+                                 QSizePolicy,
+                                 QDialogButtonBox,
+                                 QTableWidget,
+                                 QHeaderView,
+                                 QPushButton,
+                                 QCheckBox,
+                                 QComboBox
+                                )
 from geoserver.layergroup import UnsavedLayerGroup
 from geoserverexplorer.gui.gsnameutils import GSNameWidget, xmlNameRegexMsg, xmlNameRegex
 
@@ -138,7 +142,7 @@ class LayerGroupDialog(QDialog):
         self.cancelButton.setDefault(overwriting)
 
     def okPressed(self):
-        self.name = unicode(self.nameBox.definedName())
+        self.name = str(self.nameBox.definedName())
         layers = []
         styles = []
         for i in range(len(self.layernames)):

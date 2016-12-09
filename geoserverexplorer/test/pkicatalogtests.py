@@ -3,6 +3,8 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import map
+
 import os
 import sys
 import unittest
@@ -55,7 +57,7 @@ class PkiCatalogTests(CatalogTests):
 
 def suiteSubset():
     tests = ['testRasterLayerRoundTrip']
-    suite = unittest.TestSuite(map(PkiCatalogTests, tests))
+    suite = unittest.TestSuite(list(map(PkiCatalogTests, tests)))
     return suite
 
 def suite():

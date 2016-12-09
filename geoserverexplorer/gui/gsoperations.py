@@ -3,7 +3,9 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import QFileInfo
+from builtins import str
+
+from qgis.PyQt.QtCore import QFileInfo
 from qgis.core import (QgsMapLayer,
                        QgsRasterLayer,
                        QgsVectorLayer,
@@ -50,17 +52,17 @@ def addDraggedUrisToWorkspace(uris, catalog, workspace, explorer, tree):
         if len(uris) > 1:
             explorer.setProgressMaximum(len(uris))
         for i, uri in enumerate(uris):
-            source = uri if isinstance(uri, basestring) else uri.uri
+            source = uri if isinstance(uri, str) else uri.uri
             if source in allLayers:
                 layer = publishableLayers.get(source, None)
             else:
-                if isinstance(uri, basestring):
+                if isinstance(uri, str):
                     layerName = QFileInfo(uri).completeBaseName()
                     layer = QgsRasterLayer(uri, layerName)
                 else:
                     layer = QgsRasterLayer(uri.uri, uri.name)
                 if not layer.isValid() or layer.type() != QgsMapLayer.RasterLayer:
-                    if isinstance(uri, basestring):
+                    if isinstance(uri, str):
                         layerName = QFileInfo(uri).completeBaseName()
                         layer = QgsVectorLayer(uri, layerName, "ogr")
                     else:

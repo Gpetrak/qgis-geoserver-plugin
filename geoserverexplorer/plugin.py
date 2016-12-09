@@ -3,13 +3,17 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+
+from builtins import object
+
 import os
 import webbrowser
-import config
 
-from PyQt4.QtCore import Qt, QSettings
-from PyQt4.QtGui import QIcon, QAction
+from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction
 
+from geoserverexplorer import config
 from geoserverexplorer.gshelper import pem
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.dialogs.configdialog import ConfigDialog
@@ -24,7 +28,7 @@ except:
     processingOk = False
 
 
-class GeoServerExplorerPlugin:
+class GeoServerExplorerPlugin(object):
 
     def __init__(self, iface):
         self.iface = iface

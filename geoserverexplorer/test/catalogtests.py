@@ -3,12 +3,16 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from __future__ import print_function
+from builtins import str
+from builtins import map
+
 import os
 import re
 import sys
 import unittest
 
-from PyQt4.QtCore import QSettings
+from qgis.PyQt.QtCore import QSettings
 from qgis.core import QgsMapLayerRegistry
 from qgis.utils import iface
 
@@ -160,7 +164,8 @@ class CatalogTests(UtilsTestCase):
 
     def testPreuploadVectorHook(self):
         if not catalog.processingOk:
-            print 'skipping testPreuploadVectorHook, processing not installed'
+            # fix_print_with_import
+            print('skipping testPreuploadVectorHook, processing not installed')
             return
         settings = QSettings()
         oldHookFile = str(settings.value("/GeoServer/Settings/GeoServer/PreuploadVectorHook", ""))
@@ -186,7 +191,7 @@ class CatalogTests(UtilsTestCase):
 
 def suiteSubset():
     tests = ['testPreuploadVectorHook']
-    suite = unittest.TestSuite(map(CatalogTests, tests))
+    suite = unittest.TestSuite(list(map(CatalogTests, tests)))
     return suite
 
 def suite():

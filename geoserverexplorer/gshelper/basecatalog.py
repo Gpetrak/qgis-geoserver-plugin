@@ -61,7 +61,7 @@ class BaseCatalog(Catalog):
     def get_layers(self, resource=None):
         """Prefix the layer name with ws name"""
         # Original code from gsconfig
-        if isinstance(resource, basestring):
+        if isinstance(resource, str):
             resource = self.get_resource(resource)
         layers_url = url(self.service_url, ["layers.xml"])
         description = self.get_xml(layers_url)
@@ -78,7 +78,7 @@ class BaseCatalog(Catalog):
             except KeyError:
                 layers[l.name] = [l]
         # Prefix all names
-        for name, ls in layers.items():
+        for name, ls in list(layers.items()):
             if len(ls) == 1:
                 l = ls[0]
                 l.name = self.get_namespaced_name(l.name)

@@ -3,12 +3,16 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from __future__ import print_function
+from builtins import str
+from builtins import range
+
 import os
 import re
 import tempfile
 import unittest
 
-from PyQt4.QtNetwork import QSslCertificate, QSslKey, QSsl
+from qgis.PyQt.QtNetwork import QSslCertificate, QSslKey, QSsl
 from qgis.core import (QgsMapLayerRegistry,
                        QgsAuthManager,
                        QgsAuthMethodConfig,
@@ -93,7 +97,7 @@ def getGeoServerCatalog(authcfgid=None, authtype=None):
                                  conf['AUTHCFG'], conf['AUTHTYPE'])
     try:
         cat.catalog.gsversion()
-    except Exception, ex:
+    except Exception as ex:
         msg = 'cannot reach geoserver using provided credentials %s, msg is %s'
         raise AssertionError(msg % (conf, ex))
     return cat
@@ -125,7 +129,7 @@ def cleanCatalog(cat):
         try:
             cat.delete(e, purge=True)
         except:
-            from PyQt4.QtCore import QCoreApplication
+            from qgis.PyQt.QtCore import QCoreApplication
             while 1:
                 QCoreApplication.instance().processEvents()
 
@@ -400,7 +404,8 @@ def openAndUpload():
     if AUTHCFGID:
         quri.setParam("authcfg", AUTHCFGID)
 
-    print str(quri.encodedUri())
+    # fix_print_with_import
+    print(str(quri.encodedUri()))
 
     wmsLayer = QgsRasterLayer(str(quri.encodedUri()), "WMS", 'wms')
     assert wmsLayer.isValid()
@@ -414,7 +419,7 @@ def layerFromName(name):
     Returns None if no layer with that name is found
     If several layers with that name exist, only the first one is returned
     '''
-    layers = QgsMapLayerRegistry.instance().mapLayers().values()
+    layers = list(QgsMapLayerRegistry.instance().mapLayers().values())
     for layer in layers:
         if layer.name() == name:
             return layer

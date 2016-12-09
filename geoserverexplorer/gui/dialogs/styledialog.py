@@ -3,19 +3,20 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import pyqtSlot
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QDialogButtonBox,
-                         QHBoxLayout,
-                         QLabel,
-                         QSizePolicy,
-                         QComboBox,
-                         QGroupBox,
-                         QStandardItemModel,
-                         QStandardItem,
-                         QCheckBox
-                        )
+from builtins import str
+
+from qgis.PyQt.QtCore import pyqtSlot
+from qgis.PyQt.QtGui import QStandardItemModel, QStandardItem
+from qgis.PyQt.QtWidgets import (QDialog,
+                                 QVBoxLayout,
+                                 QDialogButtonBox,
+                                 QHBoxLayout,
+                                 QLabel,
+                                 QSizePolicy,
+                                 QComboBox,
+                                 QGroupBox,
+                                 QCheckBox
+                                )
 
 from geoserverexplorer.gui.gsnameutils import (GSNameWidget,
                                                xmlNameFixUp,
@@ -111,7 +112,7 @@ class StyleFromLayerDialog(QDialog):
 
     def okPressed(self):
         self.layer = self.layerBox.currentText()
-        self.name = unicode(self.nameBox.definedName())
+        self.name = str(self.nameBox.definedName())
         self.close()
 
     def cancelPressed(self):
@@ -195,7 +196,7 @@ class PublishStyleDialog(QDialog):
     def __init__(self, catalogs, layername, parent = None):
         super(PublishStyleDialog, self).__init__(parent)
         self.catalogs = catalogs
-        self.catalognames = catalogs.keys()
+        self.catalognames = list(catalogs.keys())
         self.layername = layername
         self.catalog = None
         self.name = None
@@ -280,8 +281,8 @@ class PublishStyleDialog(QDialog):
         self.nameBox.setNames(styles)
 
     def okPressed(self):
-        self.name = unicode(self.nameBox.definedName())
-        self.catalog = unicode(self.catalogBox.currentText())
+        self.name = str(self.nameBox.definedName())
+        self.catalog = str(self.catalogBox.currentText())
         self.close()
 
     def cancelPressed(self):

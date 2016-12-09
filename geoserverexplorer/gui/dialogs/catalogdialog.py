@@ -3,21 +3,22 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
 
-from PyQt4.QtCore import QSettings
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QHBoxLayout,
-                         QLabel,
-                         QLineEdit,
-                         QGroupBox,
-                         QSpacerItem,
-                         QSizePolicy,
-                         QTabWidget,
-                         QWidget,
-                         QDialogButtonBox,
-                         QMessageBox
-                        )
+from qgis.PyQt.QtCore import QSettings
+from qgis.PyQt.QtWidgets import (QDialog,
+                                 QVBoxLayout,
+                                 QHBoxLayout,
+                                 QLabel,
+                                 QLineEdit,
+                                 QGroupBox,
+                                 QSpacerItem,
+                                 QSizePolicy,
+                                 QTabWidget,
+                                 QWidget,
+                                 QDialogButtonBox,
+                                 QMessageBox
+                                )
 try:
     from qgis.core import QGis
 except ImportError:
@@ -50,7 +51,7 @@ class DefineCatalogDialog(QDialog):
             if self.catalog is None:
                 settings = QSettings()
                 settings.beginGroup("/GeoServer/Catalogs/" + self.name)
-                url = unicode(settings.value("url"))
+                url = str(settings.value("url"))
                 username = settings.value("username")
                 authid = settings.value("authid")
                 settings.endGroup()
@@ -194,12 +195,12 @@ class DefineCatalogDialog(QDialog):
 
 
     def okPressed(self):
-        self.url = unicode(self.urlBox.text().strip('/')     + '/rest')
+        self.url = str(self.urlBox.text().strip('/')     + '/rest')
         if not self.url.startswith('http'):
             self.url = 'http://%s' % self.url
         if self.tabWidget.currentIndex() == 0:
-            self.username = unicode(self.usernameBox.text())
-            self.password = unicode(self.passwordBox.text())
+            self.username = str(self.usernameBox.text())
+            self.password = str(self.passwordBox.text())
             self.certfile = None
             self.keyfile = None
             self.cafile = None
@@ -233,13 +234,13 @@ class DefineCatalogDialog(QDialog):
                                               "Please specify a valid authentication for connecting to the catalog")
                     return
 
-        nametxt = unicode(self.nameBox.text())
+        nametxt = str(self.nameBox.text())
         # increment only when adding a new connection or if editing a saved
         # connection and the name has changed
         if self.name is None or (self.name is not None and nametxt != self.name):
             newname = nametxt
             i = 2
-            while newname in self.catalogs.keys():
+            while newname in list(self.catalogs.keys()):
                 newname = nametxt + "_" + str(i)
                 i += 1
             self.name = newname

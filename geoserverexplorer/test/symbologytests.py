@@ -3,6 +3,8 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import map
+
 import os
 import re
 import sys
@@ -70,7 +72,7 @@ class SymbologyTests(unittest.TestCase):
 
 def suiteSubset():
     tests = []
-    suite = unittest.TestSuite(map(SymbologyTests, tests))
+    suite = unittest.TestSuite(list(map(SymbologyTests, tests)))
     return suite
 
 def suite():

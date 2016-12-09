@@ -10,7 +10,7 @@ try:
 except ImportError:
     from qgis.core import Qgis as QGis
 
-from geoserveralgorithm import GeoServerAlgorithm
+from geoserverexplorer.processingprovider.geoserveralgorithm import GeoServerAlgorithm
 from processing.core.parameters import ParameterVector, ParameterString
 from processing.tools import dataobjects
 

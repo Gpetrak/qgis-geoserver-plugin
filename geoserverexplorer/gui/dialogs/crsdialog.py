@@ -3,10 +3,7 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QDialogButtonBox
-                        )
+from qgis.PyQt.QtWidgets import QDialog, QVBoxLayout, QDialogButtonBox
 from qgis.gui import QgsProjectionSelector
 
 class CrsSelectionDialog(QDialog):

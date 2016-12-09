@@ -3,6 +3,7 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
 import os
 import tempfile
 import uuid
@@ -112,7 +113,7 @@ def _saveTempPem(pemString):
     return filename
 
 def removePkiTempFiles(catalogs):
-    for catalog in catalogs.values():
+    for catalog in list(catalogs.values()):
         removeCatalogPkiTempFiles(catalog)
 
 def removeCatalogPkiTempFiles(catalog):

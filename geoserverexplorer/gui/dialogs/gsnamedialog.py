@@ -7,16 +7,17 @@
 Dialog to create a user-defined name for a GeoServer component, with optional
 validation.
 """
+from __future__ import print_function
 
-from PyQt4.QtCore import pyqtSlot, Qt
-from PyQt4.QtGui import (QApplication,
-                         QDialog,
-                         QVBoxLayout,
-                         QGroupBox,
-                         QLabel,
-                         QDialogButtonBox,
-                         QCursor
-                        )
+from qgis.PyQt.QtCore import pyqtSlot, Qt
+from qgis.PyQt.QtGui import QCursor
+from qgis.PyQt.QtWidgets import (QApplication,
+                                 QDialog,
+                                 QVBoxLayout,
+                                 QGroupBox,
+                                 QLabel,
+                                 QDialogButtonBox
+                                )
 
 from geoserverexplorer.gui.gsnameutils import (GSNameWidget,
                                                xmlNameFixUp,
@@ -157,13 +158,17 @@ if __name__ == '__main__':
         unique=False,
         maxlength=10)
     gdlg.exec_()
-    print gdlg.definedName()
-    print gdlg.overwritingName()
+    # fix_print_with_import
+    print(gdlg.definedName())
+    # fix_print_with_import
+    print(gdlg.overwritingName())
     # and with no kwargs
     gdlg = GSNameDialog()
     gdlg.exec_()
-    print gdlg.definedName()
-    print gdlg.overwritingName()
+    # fix_print_with_import
+    print(gdlg.definedName())
+    # fix_print_with_import
+    print(gdlg.overwritingName())
     # gdlg.show()
     # gdlg.raise_()
     # gdlg.activateWindow()

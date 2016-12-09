@@ -3,11 +3,13 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import map
+
 import os
 import sys
 import unittest
 
-from PyQt4.QtCore import QSettings
+from qgis.PyQt.QtCore import QSettings
 from qgis.core import QgsProject
 from qgis.utils import iface
 
@@ -152,7 +154,7 @@ class DeleteTests(ExplorerIntegrationTest):
 
 def suiteSubset():
     tests = ['testDeleteLayerAndStyle']
-    suite = unittest.TestSuite(map(DeleteTests, tests))
+    suite = unittest.TestSuite(list(map(DeleteTests, tests)))
     return suite
 
 def suite():

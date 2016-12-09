@@ -3,6 +3,8 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import map
+
 import os
 import sys
 import unittest
@@ -81,7 +83,7 @@ class DragDropTests(ExplorerIntegrationTest):
 def suiteSubset():
     # set tests you want to execute adding in the following list
     tests = ['testDropVectorLayerUriInCatalogItem']
-    suite = unittest.TestSuite(map(DragDropTests, tests))
+    suite = unittest.TestSuite(list(map(DragDropTests, tests)))
     return suite
 
 def suite():

@@ -3,26 +3,15 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
+
 import os
 import sip
 import traceback
 
-from PyQt4.QtCore import Qt, QSettings
-from PyQt4.QtGui import (QDockWidget,
-                         QWidget,
-                         QSplitter,
-                         QWidget,
-                         QToolBar,
-                         QTextEdit,
-                         QVBoxLayout,
-                         QIcon,
-                         QPushButton,
-                         QApplication,
-                         QCursor,
-                         QProgressBar,
-                         QMessageBox,
-                         QTextBrowser
-                        )
+from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtWidgets import QDockWidget, QWidget, QSplitter, QWidget, QToolBar, QTextEdit, QVBoxLayout, QPushButton, QApplication, QProgressBar, QMessageBox, QTextBrowser
+from qgis.PyQt.QtGui import QIcon, QCursor
 from qgis.core import QgsMessageOutput
 from qgis.gui import QgsMessageBar
 
@@ -124,13 +113,13 @@ class GeoServerExplorer(QDockWidget):
                 self.setInfo("Operation <i>" + msg + "</i> correctly executed")
         except UserCanceledOperation:
             pass
-        except Exception, e:
+        except Exception as e:
             s = e.message
-            if not isinstance(s, unicode):
+            if not isinstance(s, str):
                 try:
-                    s = unicode(e.message, errors = "ignore").encode("utf-8")
+                    s = str(e.message, errors = "ignore").encode("utf-8")
                 except TypeError:  # handle ssl.SSLError type error from 2.7.9+
-                    s = unicode(e).encode("utf-8")
+                    s = str(e).encode("utf-8")
             self.setError(s + "\n\n<pre>" + traceback.format_exc() + "</pre>")
             noerror = False
         finally:

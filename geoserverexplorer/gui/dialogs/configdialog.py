@@ -3,17 +3,20 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
+from builtins import range
+
 import os
 
-from PyQt4.QtCore import Qt, QSettings
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QTreeWidget,
-                         QDialogButtonBox,
-                         QIcon,
-                         QTreeWidgetItem,
-                         QTreeWidgetItemIterator
-                        )
+from qgis.PyQt.QtCore import Qt, QSettings
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import (QDialog,
+                                 QVBoxLayout,
+                                 QTreeWidget,
+                                 QDialogButtonBox,
+                                 QTreeWidgetItem,
+                                 QTreeWidgetItemIterator
+                                )
 from qgis.gui import QgsFilterLineEdit
 
 
@@ -57,7 +60,7 @@ class ConfigDialog(QDialog):
 
 
     def filterTree(self):
-        text = unicode(self.searchBox.text())
+        text = str(self.searchBox.text())
         for i in range(self.tree.topLevelItemCount()):
             item = self.tree.topLevelItem(i)
             visible = False
@@ -142,7 +145,7 @@ class TreeSettingItem(QTreeWidgetItem):
         else:
             self.value = QSettings().value(name, defaultValue=defaultValue)
             self.setFlags(self.flags() | Qt.ItemIsEditable)
-            self.setText(1, unicode(self.value))
+            self.setText(1, str(self.value))
 
     def saveValue(self):
         if isinstance(self.value,bool):

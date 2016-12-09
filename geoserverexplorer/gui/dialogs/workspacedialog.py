@@ -3,17 +3,19 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtGui import (QApplication,
-                         QDialog,
-                         QVBoxLayout,
-                         QHBoxLayout,
-                         QLabel,
-                         QLineEdit,
-                         QGroupBox,
-                         QSpacerItem,
-                         QSizePolicy,
-                         QDialogButtonBox
-                        )
+from builtins import str
+
+from qgis.PyQt.QtWidgets import (QApplication,
+                                 QDialog,
+                                 QVBoxLayout,
+                                 QHBoxLayout,
+                                 QLabel,
+                                 QLineEdit,
+                                 QGroupBox,
+                                 QSpacerItem,
+                                 QSizePolicy,
+                                 QDialogButtonBox
+                                )
 from geoserverexplorer.gui.gsnameutils import GSNameWidget, xmlNameRegexMsg, xmlNameRegex
 
 APP = None
@@ -97,8 +99,8 @@ class DefineWorkspaceDialog(QDialog):
         self.okButton.setEnabled(ok)
 
     def okPressed(self):
-        self.uri = unicode(self.uriBox.text())
-        self.name = unicode(self.nameBox.definedName())
+        self.uri = str(self.uriBox.text())
+        self.name = str(self.nameBox.definedName())
         self.close()
 
     def cancelPressed(self):

@@ -5,8 +5,9 @@
 #
 import os
 
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import QIcon, QAction, QMessageBox
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtWidgets import QAction, QMessageBox
 
 from geoserver.catalog import FailedRequestError
 

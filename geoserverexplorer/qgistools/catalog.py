@@ -3,10 +3,13 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
+from builtins import object
+
 import os
 import requests
 
-from PyQt4.QtCore import QSettings
+from qgis.PyQt.QtCore import QSettings
 
 try:
     from qgis.core import QGis
@@ -54,7 +57,7 @@ try:
     from processing.tools.dataobjects import getObjectFromUri as load
     from processing.modeler.ModelerUtils import ModelerUtils
     processingOk = True
-except Exception, e:
+except Exception as e:
     processingOk = False
 
 
@@ -147,12 +150,12 @@ class CatalogWrapper(object):
         allstyles = self.catalog.get_styles()
         for style in allstyles:
             sld = style.sld_body.replace("<sld:Name>%s</sld:Name>" % style.name, "")
-            if sld in used.keys():
+            if sld in list(used.keys()):
                 used[sld].append(style)
             else:
                 used[sld] = [style]
 
-        for sld, styles in used.iteritems():
+        for sld, styles in used.items():
             if len(styles) == 1:
                 continue
             #find the layers that use any of the secondary styles in the list, and make them use the first one
@@ -184,7 +187,7 @@ class CatalogWrapper(object):
         it will overwrite a style with that name in case it exists
         '''
 
-        if isinstance(layer, basestring):
+        if isinstance(layer, str):
             layer = layers.resolveLayer(layer)
         sld, icons = getGsCompatibleSld(layer)
         if sld is not None:
@@ -205,7 +208,7 @@ class CatalogWrapper(object):
                 r = requests.put(url, data=icon[2], auth=(self.catalog.username, self.catalog.password))
             try:
                 r.raise_for_status()
-            except Exception, e:
+            except Exception as e:
                 raise Exception ("Error uploading SVG icon to GeoServer:\n" + str(e))
             break
 
@@ -334,7 +337,7 @@ class CatalogWrapper(object):
             if 'shp' in path:
                 path = path['shp']
             else:
-                raise Exception('Unexpected condition : %s', path.keys())
+                raise Exception('Unexpected condition : %s', list(path.keys()))
         session = self.client.upload(path)
         if not session.tasks:
             raise Exception('Geoserver is not able to process the uploaded data')
@@ -354,7 +357,7 @@ class CatalogWrapper(object):
     def upload(self, layer, workspace=None, overwrite=True, name=None):
         '''uploads the specified layer'''
 
-        if isinstance(layer, basestring):
+        if isinstance(layer, str):
             layer = layers.resolveLayer(layer)
 
         name = name or layer.name()
@@ -376,12 +379,12 @@ class CatalogWrapper(object):
                 self._uploadRest(layer, workspace, overwrite, name)
             else:
                 self._uploadImporter(layer, workspace, overwrite, name)
-        except UploadError, e:
+        except UploadError as e:
             msg = ('Could not save the layer %s, there was an upload '
                    'error: %s' % (layer.name(), str(e)))
             e.args = (msg,)
             raise
-        except ConflictingDataError, e:
+        except ConflictingDataError as e:
             # A datastore of this name already exists
             msg = ('GeoServer reported a conflict creating a store with name %s: '
                    '"%s". This should never happen because a brand new name '
@@ -508,7 +511,7 @@ class CatalogWrapper(object):
 
         '''
 
-        if isinstance(layer, basestring):
+        if isinstance(layer, str):
             layer = layers.resolveLayer(layer)
 
         name = xmlNameFixUp(name) if name is not None \
@@ -609,7 +612,7 @@ class CatalogWrapper(object):
                 with open(sldfile, 'w') as f:
                     f.write(sld)
                 msg, ok = qgslayer.loadSldStyle(sldfile)
-            except Exception, e:
+            except Exception as e:
                 ok = False
             QgsMapLayerRegistry.instance().addMapLayers([qgslayer])
             if not ok:

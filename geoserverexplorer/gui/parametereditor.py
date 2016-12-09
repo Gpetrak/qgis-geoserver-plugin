@@ -3,14 +3,16 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import (QWidget,
-                         QVBoxLayout,
-                         QTreeWidget,
-                         QTreeWidgetItem,
-                         QPushButton,
-                         QDialogButtonBox
-                        )
+from builtins import range
+
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import (QWidget,
+                                 QVBoxLayout,
+                                 QTreeWidget,
+                                 QTreeWidgetItem,
+                                 QPushButton,
+                                 QDialogButtonBox
+                                )
 
 
 class ParameterEditor(QWidget):

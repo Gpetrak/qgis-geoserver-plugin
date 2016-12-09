@@ -3,12 +3,14 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import str
+
 import os
 import uuid
 import time
 
-from PyQt4.QtCore import QDir
-from PyQt4.QtGui import QMessageBox
+from qgis.PyQt.QtCore import QDir
+from qgis.PyQt.QtWidgets import QMessageBox
 
 from qgis.utils import iface
 
@@ -29,10 +31,10 @@ def checkLayers():
     return True
 
 def tempFolder():
-    tempDir = os.path.join(unicode(QDir.tempPath()), "geoserverplugin")
+    tempDir = os.path.join(str(QDir.tempPath()), "geoserverplugin")
     if not QDir(tempDir).exists():
         QDir().mkpath(tempDir)
-    return unicode(os.path.abspath(tempDir))
+    return str(os.path.abspath(tempDir))
 
 def tempFilename(ext):
     path = tempFolder()

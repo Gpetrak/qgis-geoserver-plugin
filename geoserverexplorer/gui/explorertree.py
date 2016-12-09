@@ -4,16 +4,11 @@
 # This code is licensed under the GPL 2.0 license.
 #
 import os
-from PyQt4.QtCore import Qt, QByteArray, QDataStream, QIODevice
-from PyQt4.QtGui import (QTreeWidget,
-                         QAbstractItemView,
-                         QItemSelectionModel,
-                         QIcon,
-                         QAction,
-                         QMenu,
-                         QTreeWidgetItemIterator
-                        )
-from PyQt4.QtXml import QDomDocument
+from qgis.PyQt.QtCore import Qt, QByteArray, QDataStream, QIODevice
+from qgis.PyQt.QtWidgets import QTreeWidget, QAbstractItemView, QAction, QMenu, QTreeWidgetItemIterator
+from qgis.PyQt.QtCore import QItemSelectionModel
+from qgis.PyQt.QtGui import QIcon
+from qgis.PyQt.QtXml import QDomDocument
 
 from qgis.core import (QgsMimeDataUtils,
                        QgsMapLayerRegistry,

@@ -5,15 +5,10 @@
 #
 import xml.dom.minidom
 
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QDialogButtonBox,
-                         QFont,
-                         QFontMetrics,
-                         QColor
-                        )
-from PyQt4.Qsci import QsciScintilla, QsciLexerXML
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import QDialog, QVBoxLayout, QDialogButtonBox
+from qgis.PyQt.QtGui import QFont, QFontMetrics, QColor
+from qgis.PyQt.Qsci import QsciScintilla
 
 
 class SldEditorDialog(QDialog):

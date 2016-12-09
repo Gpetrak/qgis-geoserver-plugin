@@ -3,18 +3,21 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import (QDialog,
-                         QSizePolicy,
-                         QVBoxLayout,
-                         QHBoxLayout,
-                         QLabel,
-                         QComboBox,
-                         QGroupBox,
-                         QSpinBox,
-                         QCheckBox,
-                         QDialogButtonBox
-                        )
+from builtins import str
+from builtins import range
+
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import (QDialog,
+                                 QSizePolicy,
+                                 QVBoxLayout,
+                                 QHBoxLayout,
+                                 QLabel,
+                                 QComboBox,
+                                 QGroupBox,
+                                 QSpinBox,
+                                 QCheckBox,
+                                 QDialogButtonBox
+                                )
 from geoserverexplorer.gui.extentpanel import ExtentSelectionPanel
 
 class EditGwcLayerDialog(QDialog):

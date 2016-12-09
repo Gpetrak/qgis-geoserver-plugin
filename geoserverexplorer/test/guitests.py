@@ -3,13 +3,16 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import map
+from builtins import range
+
 import sys
 import os
 import unittest
 
-from PyQt4.QtCore import Qt, QSettings, QRegExp
-from PyQt4.QtGui import QWidget, QHBoxLayout, QToolTip
-from PyQt4.QtTest import QTest
+from qgis.PyQt.QtCore import Qt, QSettings, QRegExp
+from qgis.PyQt.QtWidgets import QWidget, QHBoxLayout, QToolTip
+from qgis.PyQt.QtTest import QTest
 from qgis.utils import iface
 
 from geoserver.catalog import Catalog
@@ -427,7 +430,7 @@ class GSNameDialogTest(unittest.TestCase):
 
 def suiteSubset():
     tests = ['testPublishLayersDialog']
-    suite = unittest.TestSuite(map(LayerDialogTests, tests))
+    suite = unittest.TestSuite(list(map(LayerDialogTests, tests)))
     return suite
 
 def suite():

@@ -3,6 +3,8 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
+from builtins import map
+
 import os
 import sys
 import unittest
@@ -108,7 +110,7 @@ class PkiGSNameDialogTest(GSNameDialogTest):
 
 def suiteSubset():
     tests = ['testCreateCatalogDialog']
-    suite = unittest.TestSuite(map(PkiCreateCatalogDialogTests, tests))
+    suite = unittest.TestSuite(list(map(PkiCreateCatalogDialogTests, tests)))
     return suite
 
 

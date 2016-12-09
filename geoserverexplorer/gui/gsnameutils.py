@@ -7,21 +7,11 @@
 Utilities to create a user-defined name for a GeoServer component, with optional
 validation.
 """
+from __future__ import print_function
+from builtins import str
 
-from PyQt4.QtCore import (pyqtSignal,
-                          pyqtSlot,
-                          Qt,
-                          QRegExp,
-                          QTimer,
-                          QPoint,
-                          QObject
-                         )
-from PyQt4.QtGui import (QApplication,
-                         QWidget,
-                         QHBoxLayout,
-                         QComboBox,
-                         QToolTip
-                        )
+from qgis.PyQt.QtCore import pyqtSignal, pyqtSlot, Qt, QRegExp, QTimer, QPoint, QObject
+from qgis.PyQt.QtWidgets import QApplication, QWidget, QHBoxLayout, QComboBox, QToolTip
 
 from geoserverexplorer.gui.contextualhelp import InfoIcon
 
@@ -148,7 +138,7 @@ class GSNameWidget(QWidget):
         return self.valid
 
     def definedName(self):
-        return unicode(self.nameBox.lineEdit().text()) if self.valid else None
+        return str(self.nameBox.lineEdit().text()) if self.valid else None
 
     def overwritingName(self):
         return self.overwriting
@@ -261,11 +251,13 @@ if __name__ == '__main__':
 
         @pyqtSlot(bool)
         def valididtyChanged(self, valid):
-            print "valididty changed: {0}".format(valid)
+            # fix_print_with_import
+            print("valididty changed: {0}".format(valid))
 
         @pyqtSlot(bool)
         def overwritingChanged(self, overwrite):
-            print "overwriting changed: {0}".format(overwrite)
+            # fix_print_with_import
+            print("overwriting changed: {0}".format(overwrite))
 
     bobj = BounceObj()
     gdlg = GSNameWidget(
@@ -305,11 +297,13 @@ if __name__ == '__main__':
 
         @pyqtSlot(bool)
         def valididtyChanged(self, valid):
-            print "valididty changed: {0}".format(valid)
+            # fix_print_with_import
+            print("valididty changed: {0}".format(valid))
 
         @pyqtSlot(bool)
         def overwritingChanged(self, overwrite):
-            print "overwriting changed: {0}".format(overwrite)
+            # fix_print_with_import
+            print("overwriting changed: {0}".format(overwrite))
 
     bobj = BounceObj()
     gdlg = GSNameWidget(

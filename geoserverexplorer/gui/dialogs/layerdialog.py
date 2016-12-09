@@ -3,21 +3,24 @@
 # (c) 2016 Boundless, http://boundlessgeo.com
 # This code is licensed under the GPL 2.0 license.
 #
-from PyQt4.QtCore import Qt
-from PyQt4.QtGui import (QDialog,
-                         QVBoxLayout,
-                         QTableWidget,
-                         QHBoxLayout,
-                         QLabel,
-                         QSizePolicy,
-                         QHeaderView,
-                         QAbstractItemView,
-                         QDialogButtonBox,
-                         QTableWidgetItem,
-                         QCheckBox,
-                         QComboBox,
-                         QMessageBox
-                        )
+from __future__ import print_function
+from builtins import range
+
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtWidgets import (QDialog,
+                                 QVBoxLayout,
+                                 QTableWidget,
+                                 QHBoxLayout,
+                                 QLabel,
+                                 QSizePolicy,
+                                 QHeaderView,
+                                 QAbstractItemView,
+                                 QDialogButtonBox,
+                                 QTableWidgetItem,
+                                 QCheckBox,
+                                 QComboBox,
+                                 QMessageBox
+                                )
 
 from geoserverexplorer.gui.gsnameutils import (GSNameWidget,
                                                xmlNameFixUp,
@@ -91,7 +94,7 @@ class PublishLayersDialog(QDialog):
 
     def checkLayers(self, b):
         state = Qt.Checked if b else Qt.Unchecked
-        for idx in xrange(len(self.layers)):
+        for idx in range(len(self.layers)):
             lyrItem = self.table.item(idx, self.getColumn(self.lyr))
             lyrItem.setCheckState(state)
 
@@ -167,7 +170,8 @@ class PublishLayersDialog(QDialog):
     def okPressed(self):
         self.topublish = []
         for idx, layer in enumerate(self.layers):
-            print idx, self.getColumn(self.lyr)
+            # fix_print_with_import
+            print(idx, self.getColumn(self.lyr))
             lyrItem = self.table.item(idx, self.getColumn(self.lyr))
             if lyrItem.checkState() == Qt.Checked:
                 nameBox = self.table.cellWidget(idx, self.getColumn(self.name))
