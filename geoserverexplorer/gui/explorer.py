@@ -28,7 +28,7 @@ from qgis.gui import QgsMessageBar
 
 from geoserverexplorer import config
 from geoserverexplorer.gui.explorertree import ExplorerTreeWidget
-from geoserverexplorer.qgis.utils import UserCanceledOperation
+from geoserverexplorer.qgistools.utils import UserCanceledOperation
 
 class GeoServerExplorer(QDockWidget):
 

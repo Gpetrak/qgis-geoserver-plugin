@@ -12,8 +12,8 @@ from PyQt4.QtGui import QMessageBox
 
 from qgis.utils import iface
 
-from geoserverexplorer.qgis import layers as qgislayers
-from geoserverexplorer.qgis import uri as uri_utils
+from geoserverexplorer.qgistools import layers as qgislayers
+from geoserverexplorer.qgistools import uri as uri_utils
 
 class UserCanceledOperation(Warning):
     pass

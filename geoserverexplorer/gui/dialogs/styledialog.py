@@ -22,7 +22,7 @@ from geoserverexplorer.gui.gsnameutils import (GSNameWidget,
                                                xmlNameRegexMsg,
                                                xmlNameRegex
                                               )
-from geoserverexplorer.qgis import layers
+from geoserverexplorer.qgistools import layers
 
 
 class StyleFromLayerDialog(QDialog):

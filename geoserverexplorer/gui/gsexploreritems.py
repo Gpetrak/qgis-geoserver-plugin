@@ -60,16 +60,16 @@ from geoserverexplorer.gui.dialogs.workspacedialog import DefineWorkspaceDialog
 from geoserverexplorer.gui.dialogs.crsdialog import CrsSelectionDialog
 from geoserverexplorer.gui.dialogs.sldeditor import SldEditorDialog
 
-from geoserverexplorer.qgis import layers as qgislayers
-from geoserverexplorer.qgis.catalog import CatalogWrapper
-from geoserverexplorer.qgis.sldadapter import (adaptGsToQgs,
-                                               getGeomTypeFromSld,
-                                               getGsCompatibleSld
+from geoserverexplorer.qgistools import layers as qgislayers
+from geoserverexplorer.qgistools.catalog import CatalogWrapper
+from geoserverexplorer.qgistools.sldadapter import (adaptGsToQgs,
+                                                    getGeomTypeFromSld,
+                                                    getGsCompatibleSld
+                                                   )
+from geoserverexplorer.qgistools.utils import (UserCanceledOperation,
+                                               checkLayers,
+                                               tempFilename
                                               )
-from geoserverexplorer.qgis.utils import (UserCanceledOperation,
-                                          checkLayers,
-                                          tempFilename
-                                         )
 
 
 class GsTreeItem(TreeItem):

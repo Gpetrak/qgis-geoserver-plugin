@@ -23,7 +23,7 @@ from geoserverexplorer.gui.gsnameutils import (GSNameWidget,
                                                xmlNameRegex,
                                                xmlNameRegexMsg
                                               )
-from geoserverexplorer.qgis.utils import UserCanceledOperation
+from geoserverexplorer.qgistools.utils import UserCanceledOperation
 
 APP = None
 if __name__ == '__main__':

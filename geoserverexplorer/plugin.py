@@ -13,8 +13,8 @@ from PyQt4.QtGui import QIcon, QAction
 from geoserverexplorer.geoserver import pem
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.dialogs.configdialog import ConfigDialog
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs
-from geoserverexplorer.qgis import layerwatcher
+from geoserverexplorer.qgistools.sldadapter import adaptGsToQgs
+from geoserverexplorer.qgistools import layerwatcher
 
 try:
     from processing.core.Processing import Processing

@@ -19,7 +19,7 @@ from qgis.core import (QgsMapLayer,
 from qgis.gui import QgsMessageBar
 from qgis.utils import iface
 
-from geoserverexplorer.qgis import utils
+from geoserverexplorer.qgistools import utils
 
 def exportVectorLayer(layer):
     '''accepts a QgsVectorLayer or a string with a filepath'''

@@ -5,9 +5,9 @@
 #
 from qgis.core import QgsMapLayerRegistry
 
-from geoserverexplorer.qgis import uri as uri_utils
-from geoserverexplorer.qgis.utils import tempFilename
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs
+from geoserverexplorer.qgistools import uri as uri_utils
+from geoserverexplorer.qgistools.utils import tempFilename
+from geoserverexplorer.qgistools.sldadapter import adaptGsToQgs
 
 _explorer = None
 

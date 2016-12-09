@@ -10,8 +10,8 @@ import unittest
 
 from qgis.utils import iface
 
-from geoserverexplorer.qgis import layers, catalog
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs, getGsCompatibleSld
+from geoserverexplorer.qgistools import layers, catalog
+from geoserverexplorer.qgistools.sldadapter import adaptGsToQgs, getGsCompatibleSld
 from geoserverexplorer.test import utils
 from geoserverexplorer.test.utils import (PT1,
                                           DEM,

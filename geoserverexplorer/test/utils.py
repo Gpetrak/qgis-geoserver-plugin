@@ -18,8 +18,8 @@ import qgis.utils
 from geoserver.util import shapefile_and_friends
 
 import geoserverexplorer
-import qgis
-from geoserverexplorer.qgis.catalog import createGeoServerCatalog
+
+from geoserverexplorer.qgistools.catalog import createGeoServerCatalog
 from geoserverexplorer.gui.gsexploreritems import GsCatalogItem
 
 PREFIX = "qgis_plugin_test_"

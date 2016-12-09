@@ -30,7 +30,7 @@ from geoserverexplorer.gui.dialogs.groupdialog import LayerGroupDialog
 from geoserverexplorer.gui.dialogs.layerdialog import PublishLayersDialog
 from geoserverexplorer.gui.dialogs.gsnamedialog import GSNameDialog
 
-from geoserverexplorer.qgis import layers
+from geoserverexplorer.qgistools import layers
 
 from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
 from geoserverexplorer.test.utils import (AUTHCFGID,

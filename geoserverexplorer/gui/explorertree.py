@@ -24,7 +24,7 @@ from qgis.core import (QgsMimeDataUtils,
 from geoserverexplorer.gui.gsexploreritems import (GsCatalogsItem,
                                                    GsLayerItem
                                                   )
-from geoserverexplorer.qgis import uri as uri_utils
+from geoserverexplorer.qgistools import uri as uri_utils
 
 class ExplorerTreeWidget(QTreeWidget):
 

@@ -24,7 +24,7 @@ from geoserverexplorer.gui.gsnameutils import (GSNameWidget,
                                                xmlNameRegexMsg,
                                                xmlNameRegex
                                               )
-from geoserverexplorer.qgis import layers as qgislayers
+from geoserverexplorer.qgistools import layers as qgislayers
 
 class PublishLayersDialog(QDialog):
 

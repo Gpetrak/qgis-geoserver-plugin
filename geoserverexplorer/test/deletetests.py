@@ -11,7 +11,7 @@ from PyQt4.QtCore import QSettings
 from qgis.core import QgsProject
 from qgis.utils import iface
 
-from geoserverexplorer.qgis import layers
+from geoserverexplorer.qgistools import layers
 from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
 from geoserverexplorer.test.utils import (PT1,
                                           safeName,

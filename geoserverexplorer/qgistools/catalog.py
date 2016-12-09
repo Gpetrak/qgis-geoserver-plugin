@@ -39,9 +39,9 @@ from geoserverexplorer.geoserver.util import (groupsWithLayer,
 
 from geoserverexplorer.gui.gsnameutils import xmlNameFixUp, xmlNameIsValid
 
-from geoserverexplorer.qgis.sldadapter import adaptGsToQgs, getGsCompatibleSld
-from geoserverexplorer.qgis import layers, exporter, utils
-from geoserverexplorer.qgis import uri as uri_utils
+from geoserverexplorer.qgistools.sldadapter import adaptGsToQgs, getGsCompatibleSld
+from geoserverexplorer.qgistools import layers, exporter, utils
+from geoserverexplorer.qgistools import uri as uri_utils
 
 try:
     from processing.modeler.ModelerAlgorithm import ModelerAlgorithm

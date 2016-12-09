@@ -17,8 +17,8 @@ from geoserverexplorer.gui.confirm import publishLayer
 from geoserverexplorer.gui.dialogs.projectdialog import PublishProjectDialog
 from geoserverexplorer.gui.dialogs.layerdialog import PublishLayersDialog
 
-from geoserverexplorer.qgis import layers as qgislayers
-from geoserverexplorer.qgis.catalog import CatalogWrapper
+from geoserverexplorer.qgistools import layers as qgislayers
+from geoserverexplorer.qgistools.catalog import CatalogWrapper
 
 
 def publishDraggedLayer(explorer, layer, workspace):

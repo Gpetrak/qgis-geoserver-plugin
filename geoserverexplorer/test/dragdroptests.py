@@ -7,7 +7,7 @@ import os
 import sys
 import unittest
 
-from geoserverexplorer.qgis import layers
+from geoserverexplorer.qgistools import layers
 from geoserverexplorer.test.integrationtest import ExplorerIntegrationTest
 from geoserverexplorer.test.utils import (PT1,
                                           WORKSPACE,
