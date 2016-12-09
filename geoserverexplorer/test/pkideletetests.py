@@ -11,7 +11,7 @@ from PyQt4.QtCore import QSettings
 from qgis.core import QgsProject
 from qgis.utils import iface
 
-from geoserverexplorer.geoserver import pem
+from geoserverexplorer.gshelper import pem
 from geoserverexplorer.test.deletetests import DeleteTests
 from geoserverexplorer.test import utils
 

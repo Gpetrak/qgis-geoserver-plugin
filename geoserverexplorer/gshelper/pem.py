@@ -15,7 +15,7 @@ except ImportError:
 # use wildcard import for auth stuff
 from qgis.core import *
 
-from geoserverexplorer.geoserver.pki import PKICatalog
+from geoserverexplorer.gshelper.pki import PKICatalog
 
 TEMP_CERT_FILE_PREFIX = "tmppki_"
 

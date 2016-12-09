@@ -28,14 +28,14 @@ from geoserver.catalog import (ConflictingDataError,
                                FailedRequestError
                               )
 
-from geoserverexplorer.geoserver import pem
-from geoserverexplorer.geoserver.pki import PKICatalog, PKIClient
-from geoserverexplorer.geoserver.auth import AuthCatalog, AuthClient
-from geoserverexplorer.geoserver.basecatalog import BaseCatalog
-from geoserverexplorer.geoserver.util import (groupsWithLayer,
-                                              removeLayerFromGroups,
-                                              addLayerToGroups
-                                             )
+from geoserverexplorer.gshelper import pem
+from geoserverexplorer.gshelper.pki import PKICatalog, PKIClient
+from geoserverexplorer.gshelper.auth import AuthCatalog, AuthClient
+from geoserverexplorer.gshelper.basecatalog import BaseCatalog
+from geoserverexplorer.gshelper.util import (groupsWithLayer,
+                                             removeLayerFromGroups,
+                                             addLayerToGroups
+                                            )
 
 from geoserverexplorer.gui.gsnameutils import xmlNameFixUp, xmlNameIsValid
 

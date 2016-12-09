@@ -10,7 +10,7 @@ import config
 from PyQt4.QtCore import Qt, QSettings
 from PyQt4.QtGui import QIcon, QAction
 
-from geoserverexplorer.geoserver import pem
+from geoserverexplorer.gshelper import pem
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.dialogs.configdialog import ConfigDialog
 from geoserverexplorer.qgistools.sldadapter import adaptGsToQgs

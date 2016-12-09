@@ -7,7 +7,7 @@ import os
 import sys
 import unittest
 
-from geoserverexplorer.geoserver import pem
+from geoserverexplorer.gshelper import pem
 from geoserverexplorer.test.guitests import CreateCatalogDialogTests
 from geoserverexplorer.test.guitests import GroupDialogTests
 from geoserverexplorer.test.guitests import LayerDialogTests

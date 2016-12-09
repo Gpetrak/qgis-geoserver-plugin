@@ -34,13 +34,13 @@ from geoserver.catalog import FailedRequestError
 
 from geoserverexplorer import config
 
-from geoserverexplorer.geoserver.wps import Wps
-from geoserverexplorer.geoserver.settings import Settings
-from geoserverexplorer.geoserver.util import getLayerFromStyle
-from geoserverexplorer.geoserver.pki import PKICatalog
-from geoserverexplorer.geoserver import pem
-from geoserverexplorer.geoserver.retry import RetryCatalog
-from geoserverexplorer.geoserver.auth import AuthCatalog
+from geoserverexplorer.gshelper.wps import Wps
+from geoserverexplorer.gshelper.settings import Settings
+from geoserverexplorer.gshelper.util import getLayerFromStyle
+from geoserverexplorer.gshelper.pki import PKICatalog
+from geoserverexplorer.gshelper import pem
+from geoserverexplorer.gshelper.retry import RetryCatalog
+from geoserverexplorer.gshelper.auth import AuthCatalog
 
 from geoserverexplorer.gui.exploreritems import TreeItem
 from geoserverexplorer.gui.parametereditor import ParameterEditor

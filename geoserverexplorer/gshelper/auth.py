@@ -27,8 +27,8 @@ from xml.parsers.expat import ExpatError
 from geoserver.catalog import FailedRequestError
 from gsimporter.client import Client, _Client
 
-from geoserverexplorer.geoserver.networkaccessmanager import NetworkAccessManager
-from geoserverexplorer.geoserver.basecatalog import BaseCatalog
+from geoserverexplorer.gshelper.networkaccessmanager import NetworkAccessManager
+from geoserverexplorer.gshelper.basecatalog import BaseCatalog
 
 logger = logging.getLogger("auth.authcatalog")
 

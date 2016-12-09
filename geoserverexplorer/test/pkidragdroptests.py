@@ -7,7 +7,7 @@ import os
 import sys
 import unittest
 
-from geoserverexplorer.geoserver import pem
+from geoserverexplorer.gshelper import pem
 from geoserverexplorer.test.dragdroptests import DragDropTests
 from geoserverexplorer.test import utils
 

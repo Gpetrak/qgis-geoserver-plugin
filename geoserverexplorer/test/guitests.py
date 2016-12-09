@@ -14,7 +14,7 @@ from qgis.utils import iface
 
 from geoserver.catalog import Catalog
 
-from geoserverexplorer.geoserver import pem
+from geoserverexplorer.gshelper import pem
 
 from geoserverexplorer.gui.explorer import GeoServerExplorer
 from geoserverexplorer.gui.contextualhelp import InfoIcon

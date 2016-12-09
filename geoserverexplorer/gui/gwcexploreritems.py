@@ -10,7 +10,7 @@ from PyQt4.QtGui import QIcon, QAction, QMessageBox
 
 from geoserver.catalog import FailedRequestError
 
-from geoserverexplorer.geoserver.gwc import Gwc, GwcLayer, SeedingStatusParsingError
+from geoserverexplorer.gshelper.gwc import Gwc, GwcLayer, SeedingStatusParsingError
 from geoserverexplorer.gui.dialogs.gwclayer import EditGwcLayerDialog, SeedGwcLayerDialog
 from geoserverexplorer.gui.exploreritems import TreeItem
 from geoserverexplorer.gui.confirm import confirmDelete

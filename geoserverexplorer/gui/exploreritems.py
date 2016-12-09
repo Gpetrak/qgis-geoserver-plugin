@@ -8,7 +8,7 @@ from PyQt4.QtGui import (QTreeWidgetItem,
                          QTextBrowser
                         )
 
-from geoserverexplorer.geoserver import util
+from geoserverexplorer.gshelper import util
 
 class TreeItem(QTreeWidgetItem):
     def __init__(self, element, icon = None, text = None):

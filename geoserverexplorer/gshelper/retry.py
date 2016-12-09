@@ -6,7 +6,7 @@
 import httplib2
 from urlparse import urlparse
 
-from geoserverexplorer.geoserver.basecatalog import BaseCatalog
+from geoserverexplorer.gshelper.basecatalog import BaseCatalog
 
 
 def retryMethodDecorator(func):

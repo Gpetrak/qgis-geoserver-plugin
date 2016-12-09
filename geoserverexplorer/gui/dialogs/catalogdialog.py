@@ -28,9 +28,9 @@ from qgis.gui import QgsAuthConfigSelect
 # use wildcard import for auth stuff
 from qgis.core import *
 
-from geoserverexplorer.geoserver import pem
-from geoserverexplorer.geoserver.pki import PKICatalog
-from geoserverexplorer.geoserver.auth import AuthCatalog
+from geoserverexplorer.gshelper import pem
+from geoserverexplorer.gshelper.pki import PKICatalog
+from geoserverexplorer.gshelper.auth import AuthCatalog
 
 class DefineCatalogDialog(QDialog):
 

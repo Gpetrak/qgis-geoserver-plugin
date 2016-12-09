@@ -6,7 +6,7 @@
 import httplib2
 from gsimporter.client import Client, _Client
 
-from geoserverexplorer.geoserver.basecatalog import BaseCatalog
+from geoserverexplorer.gshelper.basecatalog import BaseCatalog
 
 try:
     from qgis.core import QGis

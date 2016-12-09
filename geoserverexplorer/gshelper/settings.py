@@ -9,8 +9,8 @@ import xml.etree.ElementTree as ET
 from urlparse import urlparse
 
 from geoserver.support import url
-from geoserverexplorer.geoserver.pki import PKICatalog
-from geoserverexplorer.geoserver.auth import AuthCatalog
+from geoserverexplorer.gshelper.pki import PKICatalog
+from geoserverexplorer.gshelper.auth import AuthCatalog
 
 class Settings(object):
 
