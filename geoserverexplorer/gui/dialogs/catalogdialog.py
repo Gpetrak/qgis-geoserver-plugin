@@ -209,30 +209,12 @@ class DefineCatalogDialog(QDialog):
             self.username = None
             self.password = None
             self.authid = self.certWidget.configId()
-            if QGis.QGIS_VERSION_INT < 21200:
-                authtype = QgsAuthManager.instance().configProviderType(self.authid);
-                if authtype == QgsAuthType.None or authtype == QgsAuthType.Unknown:
-                    QMessageBox.warning(self, "Authentication needed",
-                                      "Please specify a valid authentication for connecting to the catalog")
-                    return
-                if authtype == QgsAuthType.Basic:
-                    configbasic = QgsAuthConfigBasic()
-                    QgsAuthManager.instance().loadAuthenticationConfig(self.authid, configbasic, True)
-                    self.password = configbasic.password()
-                    self.username = configbasic.username()
-                elif authtype in pem.nonBasicAuthTypes():
-                    self.certfile, self.keyfile, self.cafile = pem.getPemPkiPaths(self.authid, authtype)
-                else:
-                    QMessageBox.warning(self, "Unsupported authentication",
-                                      "The selected authentication type is not supported")
-                    return
-            else: # QGis.QGIS_VERSION_INT >= 21200:
-                authtype = QgsAuthManager.instance().configAuthMethodKey(self.authid)
-                self.username = ''
-                if not authtype or authtype == '':
-                    QMessageBox.warning(self, "Authentication needed",
-                                              "Please specify a valid authentication for connecting to the catalog")
-                    return
+            authtype = QgsAuthManager.instance().configAuthMethodKey(self.authid)
+            self.username = ''
+            if not authtype or authtype == '':
+                QMessageBox.warning(self, "Authentication needed",
+                                          "Please specify a valid authentication for connecting to the catalog")
+                return
 
         nametxt = str(self.nameBox.text())
         # increment only when adding a new connection or if editing a saved
